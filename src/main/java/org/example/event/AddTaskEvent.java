@@ -17,9 +17,8 @@ public class AddTaskEvent implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         String taskName = taskNameField.getText().trim();
-        if (!taskName.isEmpty()) {
+        taskName = taskName.isEmpty() ? "새 업무" : taskName;
             taskAppender.addTask(taskName);
             taskNameField.clear();
-        }
     }
 }

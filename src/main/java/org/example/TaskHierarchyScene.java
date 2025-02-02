@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.example.event.AddTaskEvent;
+import org.example.event.ButtonDisableEvent;
 import org.example.event.TaskAppender;
 
 public class TaskHierarchyScene {
@@ -28,8 +29,11 @@ public class TaskHierarchyScene {
 
         // 작업 추가 버튼 클릭 이벤트
         addTaskButton.setOnAction(
-                new AddTaskEvent(taskNameField,
-                        new TaskAppender(taskPane, addTaskButton))
+                new ButtonDisableEvent(
+                        addTaskButton,
+                        new AddTaskEvent(taskNameField,
+                                new TaskAppender(taskPane, addTaskButton))
+                )
         );
 
         Button globalStart = new Button("Start");
