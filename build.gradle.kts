@@ -1,6 +1,11 @@
 plugins {
     id("java")
+    id("application") // 추가
     id("org.openjfx.javafxplugin") version "0.0.14"
+}
+
+application {
+    mainClass.set("org.example.TaskHierarchyApp") // 실제 main 클래스 이름 입력
 }
 
 group = "org.example"

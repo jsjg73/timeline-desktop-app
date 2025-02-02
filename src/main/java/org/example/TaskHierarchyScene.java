@@ -32,8 +32,15 @@ public class TaskHierarchyScene {
                         new TaskAppender(taskPane, addTaskButton))
         );
 
+        Button globalStart = new Button("Start");
+        Button globalStop = new Button("Stop");
+
         // 기본 레이아웃 설정
-        root.getChildren().addAll(taskNameField, parentTaskField, addTaskButton, taskPane);
+        root.getChildren().addAll(taskNameField, parentTaskField,
+                addTaskButton,
+                globalStart,
+                globalStop,
+                taskPane);
         return new Scene(root, 800, 600);
     }
 }
