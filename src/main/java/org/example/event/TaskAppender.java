@@ -13,12 +13,10 @@ public class TaskAppender {
 
     private AtomicInteger barCount = new AtomicInteger();
     private final Pane taskPane;
-    private final Button taskButton;
     private int nextTaskY = 50;
 
-    public TaskAppender(Pane taskPane, Button taskButton) {
+    public TaskAppender(Pane taskPane) {
         this.taskPane = taskPane;
-        this.taskButton = taskButton;
     }
 
     public void addTask(String taskName) {
@@ -67,9 +65,7 @@ public class TaskAppender {
         stackPane.setLayoutY(y);
 
         int idx = barCount.getAndIncrement();
-        String id = "new-task-bar-" + idx;
-        System.out.println("id = " + id);
-        stackPane.setId(id);
+        stackPane.setId("new-task-bar-" + idx);
 
         return stackPane;
     }
