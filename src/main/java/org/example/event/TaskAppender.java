@@ -7,8 +7,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class TaskAppender {
 
+    private AtomicInteger barCount = new AtomicInteger();
     private final Pane taskPane;
     private final Button taskButton;
     private int nextTaskY = 50;
@@ -62,6 +65,11 @@ public class TaskAppender {
         stackPane.getChildren().addAll(rect, label);
         stackPane.setLayoutX(x);
         stackPane.setLayoutY(y);
+
+        int idx = barCount.getAndIncrement();
+        String id = "new-task-bar-" + idx;
+        System.out.println("id = " + id);
+        stackPane.setId(id);
 
         return stackPane;
     }

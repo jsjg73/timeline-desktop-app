@@ -26,14 +26,15 @@ public class TaskHierarchyScene {
         parentTaskField.setPromptText("Enter Parent Task (optional)");
 
         Button addTaskButton = new Button("Add Task");
+        addTaskButton.setId("addTaskButton");
 
         // 작업 추가 버튼 클릭 이벤트
         addTaskButton.setOnAction(
-                new ButtonDisableEvent(
-                        addTaskButton,
-                        new AddTaskEvent(taskNameField,
-                                new TaskAppender(taskPane, addTaskButton))
-                )
+            new ButtonDisableEvent(
+                addTaskButton,
+                new AddTaskEvent(taskNameField,
+                    new TaskAppender(taskPane, addTaskButton))
+            )
         );
 
         Button globalStart = new Button("Start");

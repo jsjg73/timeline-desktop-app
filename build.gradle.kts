@@ -1,7 +1,7 @@
 plugins {
     id("java")
     id("application") // 추가
-    id("org.openjfx.javafxplugin") version "0.0.14"
+    id("org.openjfx.javafxplugin") version "0.0.8"
 }
 
 application {
@@ -18,8 +18,9 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    implementation("org.openjfx:javafx-controls:21") // JavaFX 버전에 맞게 수정
-    implementation("org.openjfx:javafx-fxml:21") // 필요하면 추가
+    testImplementation("org.testfx:testfx-junit5:4.0.18")
+    testImplementation("org.hamcrest:hamcrest:2.1")
+    testImplementation("org.assertj:assertj-core:3.13.2")
 }
 
 tasks.test {
