@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.example.TaskButtons;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,10 +14,12 @@ public class TaskAppender {
 
     private AtomicInteger barCount = new AtomicInteger();
     private final Pane taskPane;
+    private final TaskButtons taskButtons;
     private int nextTaskY = 50;
 
-    public TaskAppender(Pane taskPane) {
+    public TaskAppender(TaskButtons taskButtons, Pane taskPane) {
         this.taskPane = taskPane;
+        this.taskButtons = taskButtons;
     }
 
     public void addTask(String taskName) {
@@ -30,6 +33,9 @@ public class TaskAppender {
 
         // 작업 막대 생성
         StackPane taskBar = createTaskBarWithLabel(taskName, 50 + (indentLevel * 30), taskY, 200, 30);
+
+
+
         Button startButton = createButton("Start", 260 + (indentLevel * 30), taskY);
         Button completeButton = createButton("Complete", 320 + (indentLevel * 30), taskY);
         Button subtaskButton = createButton("Subtask", 400 + (indentLevel * 30), taskY);
@@ -43,6 +49,7 @@ public class TaskAppender {
     private Label createLabel(String taskName) {
         Label label = new Label(taskName);
         label.setTextFill(Color.WHITE);
+        label.setId("new-task-bar-label-"+barCount.get());
         return label;
     }
 
@@ -51,6 +58,7 @@ public class TaskAppender {
         Rectangle rect = new Rectangle(x, y, width, height);
         rect.setFill(color);
         rect.setStroke(Color.BLACK);
+        rect.setId("new-task-bar-rect-"+barCount.get());
         return rect;
     }
 
@@ -59,14 +67,20 @@ public class TaskAppender {
         Rectangle rect = createTaskBar(x, y, width, height, Color.BLUE);
         Label label = createLabel(taskName);
 
+        taskButtons.globalStart.setOnAction(
+            new GlobalStartButtonEventHandler(rect, label, taskButtons)
+        );
+
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);
         stackPane.setLayoutX(x);
         stackPane.setLayoutY(y);
 
-        int idx = barCount.getAndIncrement();
+        int idx = barCount.get();
+        System.out.println("new-task-bar-" + idx);
         stackPane.setId("new-task-bar-" + idx);
 
+        barCount.incrementAndGet();
         return stackPane;
     }
 
@@ -85,12 +99,6 @@ public class TaskAppender {
                                     Button subtaskButton) {
         Rectangle rect = (Rectangle) taskBar.getChildren().get(0);
         Label label = (Label) taskBar.getChildren().get(1);
-
-        startButton.setOnAction(e -> {
-            rect.setFill(Color.YELLOW);
-            label.setTextFill(Color.BLACK);
-            startButton.setDisable(true);
-        }); // 작업 시작 시 색상 변경
 
         completeButton.setOnAction(e -> {
             rect.setFill(Color.GRAY);
