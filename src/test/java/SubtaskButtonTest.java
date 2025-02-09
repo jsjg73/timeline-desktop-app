@@ -15,6 +15,8 @@ import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.service.query.NodeQuery;
 
+import static javafx.scene.paint.Color.GRAY;
+import static javafx.scene.paint.Color.WHITE;
 import static org.testfx.api.FxAssert.verifyThat;
 
 @ExtendWith(ApplicationExtension.class)
@@ -74,6 +76,43 @@ public class SubtaskButtonTest {
 
         verifyThat(startButton, NodeMatchers.isDisabled());
         verifyThat(completeButton, NodeMatchers.isEnabled());
+    }
+
+    @Test
+    void when_subtask_is_completed(FxRobot robot) {
+        robot.clickOn(buttonId);
+        robot.clickOn(startButton);
+        robot.clickOn(subtaskButton);
+        robot.clickOn(startButton);
+
+        final String rectId = "#new-subtask-bar-0-0-rect";
+        final String labelId = "#new-subtask-bar-0-0-label";
+
+        robot.clickOn(completeButton);
+
+        verifyRectColor(rectId, GRAY);
+        verifyLabelTextColor(labelId, Color.WHITE);
+
+        verifyThat(subtaskButton, NodeMatchers.isEnabled());
+    }
+
+    @Test
+    void when_subtask_is_completed_parent_task_could_be_completed(FxRobot robot) {
+        robot.clickOn(buttonId);
+        robot.clickOn(startButton);
+        robot.clickOn(subtaskButton);
+        robot.clickOn(startButton);
+        robot.clickOn(completeButton);
+
+        robot.clickOn(completeButton);
+
+        verifyRectColor("#new-task-bar-rect-0", GRAY);
+        verifyLabelTextColor("#new-task-bar-label-0", WHITE);
+
+        verifyThat(subtaskButton, NodeMatchers.isDisabled());
+
+        robot.clickOn(buttonId);
+        verifyThat("#new-task-bar-1", NodeMatchers.isVisible());
     }
 
     private void barIsCreated(String rectId, String labelId) {

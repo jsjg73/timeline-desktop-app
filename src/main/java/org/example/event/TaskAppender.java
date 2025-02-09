@@ -19,6 +19,8 @@ public class TaskAppender {
     private int nextTaskY;
     private int indentLevel;
 
+    private StackPane rootTask;
+
     public TaskAppender(TaskButtons taskButtons, Pane taskPane, int nextTaskY, int indentLevel) {
         this.taskPane = taskPane;
         this.taskButtons = taskButtons;
@@ -29,6 +31,8 @@ public class TaskAppender {
     public void addTask(String taskName) {
         // 작업 막대 생성
         StackPane taskBar = createTaskBarWithLabel(taskName, 50 + (indentLevel * 30), nextTaskY, 200, 30);
+
+        rootTask = taskBar;
 
         // 작업 패널에 추가
         taskPane.getChildren().addAll(taskBar);
@@ -100,6 +104,23 @@ public class TaskAppender {
 
                 taskButtons.globalStart.setDisable(true);
                 taskButtons.globalComplete.setDisable(false);
+            }
+        );
+
+        taskButtons.globalComplete.setOnAction(
+            e -> {
+                rect.setFill(Color.GRAY);
+                label.setTextFill(Color.WHITE);
+
+                taskButtons.globalSubtask.setDisable(false);
+
+                taskButtons.globalComplete.setOnAction(
+                    new GlobalStopButtonEventHandler(
+                            (Rectangle) rootTask.getChildren().get(0),
+                            (Label)rootTask.getChildren().get(1),
+                            taskButtons)
+                );
+                //TODO 시작, 완료 버튼의 액션을 변경해주기.
             }
         );
 
