@@ -30,7 +30,7 @@ public class TaskHierarchyScene {
             new ControlGlobalButtons(
                     buttons,
                 new AddTaskEvent(taskNameField,
-                    new TaskAppender(buttons, taskPane))
+                    new TaskAppender(buttons, taskPane, 50, 0))
             )
         );
 

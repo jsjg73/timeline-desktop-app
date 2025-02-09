@@ -5,10 +5,15 @@ import javafx.event.EventHandler;
 
 public class TempAddSubTaskEvent implements EventHandler<ActionEvent> {
 
-    public TempAddSubTaskEvent() {
+    private final TaskAppender taskAppender;
+
+    public TempAddSubTaskEvent(
+    final TaskAppender taskAppender) {
+        this.taskAppender = taskAppender;
     }
 
     @Override
     public void handle(ActionEvent actionEvent) {
+        taskAppender.addSubtask("새 하위 업무");
     }
 }

@@ -13,30 +13,28 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TaskAppender {
 
     private AtomicInteger barCount = new AtomicInteger();
+    private AtomicInteger subtaskBarCount = new AtomicInteger();
     private final Pane taskPane;
     private final TaskButtons taskButtons;
-    private int nextTaskY = 50;
+    private int nextTaskY;
+    private int indentLevel;
 
-    public TaskAppender(TaskButtons taskButtons, Pane taskPane) {
+    public TaskAppender(TaskButtons taskButtons, Pane taskPane, int nextTaskY, int indentLevel) {
         this.taskPane = taskPane;
         this.taskButtons = taskButtons;
+        this. nextTaskY = nextTaskY;
+        this.indentLevel = indentLevel;
     }
 
     public void addTask(String taskName) {
-
-        int taskY;
-        int indentLevel = 0; // 들여쓰기 수준 (depth)
-
-        // 부모가 없을 경우 독립 작업으로 기본 위치 사용
-        taskY = nextTaskY;
-        nextTaskY += 50; // 다음 부모 작업 위치 갱신
-
         // 작업 막대 생성
-        StackPane taskBar = createTaskBarWithLabel(taskName, 50 + (indentLevel * 30), taskY, 200, 30);
+        StackPane taskBar = createTaskBarWithLabel(taskName, 50 + (indentLevel * 30), nextTaskY, 200, 30);
 
         // 작업 패널에 추가
         taskPane.getChildren().addAll(taskBar);
+        nextTaskY += 50; // 다음 부모 작업 위치 갱신
     }
+
     private Label createLabel(String taskName) {
         Label label = new Label(taskName);
         label.setTextFill(Color.WHITE);
@@ -66,6 +64,10 @@ public class TaskAppender {
             new GlobalStopButtonEventHandler(rect, label, taskButtons)
         );
 
+        taskButtons.globalSubtask.setOnAction(
+            new TempAddSubTaskEvent(this)
+        );
+
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);
         stackPane.setLayoutX(x);
@@ -78,22 +80,46 @@ public class TaskAppender {
         return stackPane;
     }
 
-    // 버튼을 생성하는 메서드
-    private Button createButton(String text, int x, int y) {
-        Button button = new Button(text);
-        button.setLayoutX(x);
-        button.setLayoutY(y);
-        return button;
+    public void addSubtask(String subtaskName) {
+        int subtaskIndentLevel = indentLevel + 1;
+        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, 50 + (subtaskIndentLevel * 30), nextTaskY, 200, 30);
+
+        taskPane.getChildren().addAll(subtaskPane);
+        nextTaskY += 50;
     }
 
-    // 작업 이벤트 핸들러 추가
-    private void attachTaskHandlers(StackPane taskBar,
-                                    Button startButton,
-                                    Button completeButton,
-                                    Button subtaskButton) {
-        Rectangle rect = (Rectangle) taskBar.getChildren().get(0);
-        Label label = (Label) taskBar.getChildren().get(1);
+    private StackPane createSubTaskBarWithLabel(String taskName, int x, int y, int width, int height) {
+        Rectangle rect = createSubtaskBar(x, y, width, height, Color.BLUE);
+        Label label = createSubtaskLabel(taskName);
 
-        subtaskButton.setOnAction(new TempAddSubTaskEvent());
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(rect, label);
+        stackPane.setLayoutX(x);
+        stackPane.setLayoutY(y);
+
+        int idx = parentTaskId();
+        stackPane.setId("new-subtask-bar-" + idx + "-" + subtaskBarCount.get());
+
+        subtaskBarCount.incrementAndGet();
+        return stackPane;
+    }
+
+    private int parentTaskId() {
+        return barCount.get() - 1;
+    }
+
+    private Rectangle createSubtaskBar(int x, int y, int width, int height, Color color) {
+        Rectangle rect = new Rectangle(x, y, width, height);
+        rect.setFill(color);
+        rect.setStroke(Color.BLACK);
+        rect.setId("new-subtask-bar-" + parentTaskId() + "-" + subtaskBarCount.get() + "-rect");
+        return rect;
+    }
+
+    private Label createSubtaskLabel(String taskName) {
+        Label label = new Label(taskName);
+        label.setTextFill(Color.WHITE);
+        label.setId("new-subtask-bar-" + parentTaskId() + "-" + subtaskBarCount.get() +"-label");
+        return label;
     }
 }
