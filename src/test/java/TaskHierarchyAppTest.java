@@ -13,6 +13,9 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.base.ColorMatchers;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
+import org.testfx.service.query.NodeQuery;
+
+import static org.testfx.api.FxAssert.verifyThat;
 
 @ExtendWith(ApplicationExtension.class)
 class TaskHierarchyAppTest {
@@ -32,53 +35,71 @@ class TaskHierarchyAppTest {
 
     @Test
     void first_test() {
-        FxAssert.verifyThat(buttonId, LabeledMatchers.hasText("Add Task"));
+        verifyThat(buttonId, LabeledMatchers.hasText("Add Task"));
 
-        FxAssert.verifyThat(startButton, LabeledMatchers.hasText("Start"));
-        FxAssert.verifyThat(startButton, NodeMatchers.isDisabled());
+        verifyThat(startButton, LabeledMatchers.hasText("Start"));
+        verifyThat(startButton, NodeMatchers.isDisabled());
 
-        FxAssert.verifyThat(stopButton, LabeledMatchers.hasText("Stop"));
-        FxAssert.verifyThat(stopButton, NodeMatchers.isDisabled());
+        verifyThat(stopButton, LabeledMatchers.hasText("Stop"));
+        verifyThat(stopButton, NodeMatchers.isDisabled());
 
-        FxAssert.verifyThat(subtaskButton, LabeledMatchers.hasText("Subtask"));
-        FxAssert.verifyThat(subtaskButton, NodeMatchers.isDisabled());
+        verifyThat(subtaskButton, LabeledMatchers.hasText("Subtask"));
+        verifyThat(subtaskButton, NodeMatchers.isDisabled());
     }
 
     @Test
     void when_button_is_clicked_bar_is_created(FxRobot robot) {
         robot.clickOn(buttonId);
 
-        FxAssert.verifyThat("#new-task-bar-0", NodeMatchers.isVisible());
-        FxAssert.verifyThat(buttonId, NodeMatchers.isDisabled());
+        verifyThat("#new-task-bar-0", NodeMatchers.isVisible());
+        verifyThat(buttonId, NodeMatchers.isDisabled());
 
-        FxAssert.verifyThat(startButton, NodeMatchers.isEnabled());
-        FxAssert.verifyThat(stopButton, NodeMatchers.isDisabled());
-        FxAssert.verifyThat(subtaskButton, NodeMatchers.isDisabled());
+        verifyThat(startButton, NodeMatchers.isEnabled());
+        verifyThat(stopButton, NodeMatchers.isDisabled());
+        verifyThat(subtaskButton, NodeMatchers.isDisabled());
     }
 
     @Test
     void when_start_button_is_clicked_bar_color_is_changed(FxRobot robot) {
         robot.clickOn(buttonId);
-        FxAssert.verifyThat("#new-task-bar-0", NodeMatchers.isVisible());
+        verifyThat("#new-task-bar-0", NodeMatchers.isVisible());
 
         robot.clickOn(startButton);
 
-        FxAssert.verifyThat(buttonId, NodeMatchers.isDisabled());
+        verifyThat(buttonId, NodeMatchers.isDisabled());
 
-        FxAssert.verifyThat(startButton, NodeMatchers.isDisabled());
-        Rectangle rect =
-                FxAssert.assertContext()
-                        .getNodeFinder().lookup("#new-task-bar-rect-0")
-                        .query();
-        FxAssert.verifyThat((Color) rect.getFill(), ColorMatchers.isColor(Color.YELLOW));
+        verifyThat(startButton, NodeMatchers.isDisabled());
+        Rectangle rect = lookup("#new-task-bar-rect-0").query();
+        verifyThat((Color) rect.getFill(), ColorMatchers.isColor(Color.YELLOW));
 
-        Label label =
-                FxAssert.assertContext()
-                        .getNodeFinder().lookup("#new-task-bar-label-0")
-                        .query();
-        FxAssert.verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.BLACK));
+        Label label = lookup("#new-task-bar-label-0").query();
+        verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.BLACK));
 
-        FxAssert.verifyThat(stopButton, NodeMatchers.isEnabled());
-        FxAssert.verifyThat(subtaskButton, NodeMatchers.isDisabled());
+        verifyThat(stopButton, NodeMatchers.isEnabled());
+        verifyThat(subtaskButton, NodeMatchers.isDisabled());
+    }
+
+    @Test
+    void when_stop_button_is_clicked_bar_color_rollback(FxRobot robot) {
+        robot.clickOn(buttonId);
+        robot.clickOn(startButton);
+
+        robot.clickOn(stopButton);
+
+        verifyThat(stopButton, NodeMatchers.isDisabled());
+        verifyThat(buttonId, NodeMatchers.isEnabled());
+
+        Rectangle rect = lookup("#new-task-bar-rect-0").query();
+        verifyThat((Color) rect.getFill(), ColorMatchers.isColor(Color.GRAY));
+
+        Label label = lookup("#new-task-bar-label-0").query();
+        verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.WHITE));
+
+    }
+
+    private NodeQuery lookup(String query) {
+        return FxAssert.assertContext()
+                .getNodeFinder()
+                .lookup(query);
     }
 }

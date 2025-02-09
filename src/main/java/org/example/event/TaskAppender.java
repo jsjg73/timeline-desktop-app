@@ -71,13 +71,16 @@ public class TaskAppender {
             new GlobalStartButtonEventHandler(rect, label, taskButtons)
         );
 
+        taskButtons.globalStop.setOnAction(
+            new GlobalStopButtonEventHandler(rect, label, taskButtons)
+        );
+
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);
         stackPane.setLayoutX(x);
         stackPane.setLayoutY(y);
 
         int idx = barCount.get();
-        System.out.println("new-task-bar-" + idx);
         stackPane.setId("new-task-bar-" + idx);
 
         barCount.incrementAndGet();
