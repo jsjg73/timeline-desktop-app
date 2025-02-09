@@ -16,6 +16,7 @@ public class TaskAppender implements TaskHandler{
     private final TaskButtons taskButtons;
     private final int indentLevel = 0;
     private int nextTaskY;
+    private SubTaskEvent subTaskEvent;
 
     private StackPane rootTask;
 
@@ -67,9 +68,8 @@ public class TaskAppender implements TaskHandler{
             new GlobalStopButtonEventHandler(rect, label, taskButtons)
         );
 
-        taskButtons.globalSubtask.setOnAction(
-            new SubTaskEvent(taskButtons, this, indentLevel + 1, taskPane)
-        );
+        this.subTaskEvent = new SubTaskEvent(taskButtons, this, indentLevel + 1, taskPane);
+        taskButtons.globalSubtask.setOnAction(subTaskEvent);
 
         stackPane.getChildren().addAll(rect, label);
         stackPane.setLayoutX(x);
@@ -91,5 +91,9 @@ public class TaskAppender implements TaskHandler{
 
     public StackPane getTaskBar() {
         return rootTask;
+    }
+
+    public SubTaskEvent subtaskEvent() {
+        return this.subTaskEvent;
     }
 }

@@ -19,6 +19,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     private final int indent;
     private final Pane taskPane;
     private StackPane stackPane;
+    private SubTaskEvent subTaskEvent;
 
     public SubTaskEvent(
             final TaskButtons taskButtons,
@@ -63,6 +64,11 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         return stackPane;
     }
 
+    @Override
+    public SubTaskEvent subtaskEvent() {
+        return this.subTaskEvent;
+    }
+
     private StackPane createSubTaskBarWithLabel(String taskName, int x, int y, int width, int height) {
         Rectangle rect = createSubtaskBar(x, y, width, height, Color.BLUE);
         Label label = createSubtaskLabel(taskName);
@@ -74,6 +80,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
 
                 taskButtons.globalStart.setDisable(true);
                 taskButtons.globalComplete.setDisable(false);
+                taskButtons.globalSubtask.setDisable(false);
             }
         );
 
@@ -83,6 +90,9 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
                 label.setTextFill(Color.WHITE);
 
                 taskButtons.globalSubtask.setDisable(false);
+                taskButtons.globalSubtask.setOnAction(
+                    parent.subtaskEvent()
+                );
 
                 taskButtons.globalComplete.setOnAction(
                         new GlobalStopButtonEventHandler(
@@ -92,6 +102,9 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
                 );
             }
         );
+
+        subTaskEvent = new SubTaskEvent(taskButtons, this, indent + 1, taskPane);
+        taskButtons.globalSubtask.setOnAction(subTaskEvent);
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);
