@@ -34,17 +34,8 @@ public class TaskAppender {
         // 작업 막대 생성
         StackPane taskBar = createTaskBarWithLabel(taskName, 50 + (indentLevel * 30), taskY, 200, 30);
 
-
-
-        Button startButton = createButton("Start", 260 + (indentLevel * 30), taskY);
-        Button completeButton = createButton("Complete", 320 + (indentLevel * 30), taskY);
-        Button subtaskButton = createButton("Subtask", 400 + (indentLevel * 30), taskY);
-
-        // 작업 핸들러 추가
-        attachTaskHandlers(taskBar, startButton, completeButton, subtaskButton);
-
         // 작업 패널에 추가
-        taskPane.getChildren().addAll(taskBar, startButton, completeButton, subtaskButton);
+        taskPane.getChildren().addAll(taskBar);
     }
     private Label createLabel(String taskName) {
         Label label = new Label(taskName);
@@ -102,12 +93,6 @@ public class TaskAppender {
                                     Button subtaskButton) {
         Rectangle rect = (Rectangle) taskBar.getChildren().get(0);
         Label label = (Label) taskBar.getChildren().get(1);
-
-        completeButton.setOnAction(e -> {
-            rect.setFill(Color.GRAY);
-            label.setTextFill(Color.WHITE);
-            startButton.setDisable(false);
-        }); // 작업 완료 시 색상 변경
 
         subtaskButton.setOnAction(new TempAddSubTaskEvent());
     }
