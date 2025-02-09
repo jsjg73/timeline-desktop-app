@@ -65,7 +65,7 @@ public class TaskAppender {
         );
 
         taskButtons.globalSubtask.setOnAction(
-            new TempAddSubTaskEvent(this)
+            new TempAddSubTaskEvent(taskButtons, this)
         );
 
         StackPane stackPane = new StackPane();
@@ -83,6 +83,12 @@ public class TaskAppender {
     public void addSubtask(String subtaskName) {
         int subtaskIndentLevel = indentLevel + 1;
         StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, 50 + (subtaskIndentLevel * 30), nextTaskY, 200, 30);
+
+        taskButtons.globalStart.setOnAction(
+            e -> {
+
+            }
+        );
 
         taskPane.getChildren().addAll(subtaskPane);
         nextTaskY += 50;
