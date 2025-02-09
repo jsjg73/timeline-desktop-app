@@ -84,11 +84,6 @@ public class TaskAppender {
         int subtaskIndentLevel = indentLevel + 1;
         StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, 50 + (subtaskIndentLevel * 30), nextTaskY, 200, 30);
 
-        taskButtons.globalStart.setOnAction(
-            e -> {
-
-            }
-        );
 
         taskPane.getChildren().addAll(subtaskPane);
         nextTaskY += 50;
@@ -97,6 +92,13 @@ public class TaskAppender {
     private StackPane createSubTaskBarWithLabel(String taskName, int x, int y, int width, int height) {
         Rectangle rect = createSubtaskBar(x, y, width, height, Color.BLUE);
         Label label = createSubtaskLabel(taskName);
+
+        taskButtons.globalStart.setOnAction(
+            e -> {
+                rect.setFill(Color.YELLOW);
+                label.setTextFill(Color.BLACK);
+            }
+        );
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);

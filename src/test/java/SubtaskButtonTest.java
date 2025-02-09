@@ -1,3 +1,6 @@
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.example.TaskButtons;
 import org.example.TaskHierarchyScene;
@@ -7,6 +10,7 @@ import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.matcher.base.ColorMatchers;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.service.query.NodeQuery;
@@ -34,13 +38,18 @@ public class SubtaskButtonTest {
 
         robot.clickOn(startButton);
 
+        final String rectId = "#new-subtask-bar-0-0-rect";
+        final String labelId = "#new-subtask-bar-0-0-label";
+
         robot.clickOn(subtaskButton);
 
         verifyThat("#new-subtask-bar-0-0", NodeMatchers.isVisible());
-        verifyThat("#new-subtask-bar-0-0-rect", NodeMatchers.isVisible());
-        verifyThat("#new-subtask-bar-0-0-label", NodeMatchers.isVisible());
 
-        verifyThat("#new-subtask-bar-0-0-label", LabeledMatchers.hasText("새 하위 업무"));
+        verifyThat(rectId, NodeMatchers.isVisible());
+        verifyThat(labelId, NodeMatchers.isVisible());
+        barIsCreated(rectId, labelId);
+
+        verifyThat(labelId, LabeledMatchers.hasText("새 하위 업무"));
 
         verifyThat(buttonId, NodeMatchers.isDisabled());
         verifyThat(startButton, NodeMatchers.isEnabled());
@@ -50,12 +59,37 @@ public class SubtaskButtonTest {
 
 
     @Test
-    void test(FxRobot robot) {
-        //    하위 막대 생성 후 global buttons의 동작;
-//        추가됐을 때는, 시작하기 전 상태, 시작 버튼을 누르면,task 처럼 노란색 배경에 검은 글자로 보임.
-//
-//        즉 subtask 버튼을 눌러 추가하면;
-//            start를 누를 수 있는 상태가 된다. 나머지 버튼들은 비활성상태.
+    void when_subtask_is_started_bar_color_is_changed(FxRobot robot) {
+        final String rectId = "#new-subtask-bar-0-0-rect";
+        final String labelId = "#new-subtask-bar-0-0-label";
+
+        robot.clickOn(buttonId);
+        robot.clickOn(startButton);
+        robot.clickOn(subtaskButton);
+
+        robot.clickOn(startButton);
+
+        taskIsStarted(rectId, labelId);
+    }
+
+    private void taskIsStarted(String rectId, String labelId) {
+        verifyRectColor(rectId, Color.YELLOW);
+        verifyLabelTextColor(labelId, Color.BLACK);
+    }
+
+    private void barIsCreated(String rectId, String labelId) {
+        verifyRectColor(rectId, Color.BLUE);
+        verifyLabelTextColor(labelId, Color.WHITE);
+    }
+
+    private void verifyRectColor(String rectId, Color color) {
+        Rectangle rect = lookup(rectId).query();
+        verifyThat((Color) rect.getFill(), ColorMatchers.isColor(color));
+    }
+
+    private void verifyLabelTextColor(String labelId, Color color) {
+        Label rect = lookup(labelId).query();
+        verifyThat((Color) rect.getTextFill(), ColorMatchers.isColor(color));
     }
 
     private NodeQuery lookup(String query) {
