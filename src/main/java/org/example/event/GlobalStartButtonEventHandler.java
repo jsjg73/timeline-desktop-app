@@ -28,5 +28,6 @@ public class GlobalStartButtonEventHandler implements EventHandler<ActionEvent> 
 
         taskButtons.globalStart.setDisable(true);
         taskButtons.globalComplete.setDisable(false);
+        taskButtons.globalSubtask.setDisable(false);
     }
 }

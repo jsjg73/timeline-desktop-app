@@ -76,7 +76,7 @@ class TaskHierarchyAppTest {
         verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.BLACK));
 
         verifyThat(completeButton, NodeMatchers.isEnabled());
-        verifyThat(subtaskButton, NodeMatchers.isDisabled());
+        verifyThat(subtaskButton, NodeMatchers.isEnabled());
     }
 
     @Test
@@ -95,6 +95,7 @@ class TaskHierarchyAppTest {
         Label label = lookup("#new-task-bar-label-0").query();
         verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.WHITE));
 
+        verifyThat(subtaskButton, NodeMatchers.isDisabled());
     }
 
     @Test
@@ -111,7 +112,15 @@ class TaskHierarchyAppTest {
         verifyThat(startButton, NodeMatchers.isEnabled());
         verifyThat(completeButton, NodeMatchers.isDisabled());
         verifyThat(subtaskButton, NodeMatchers.isDisabled());
+    }
 
+    @Test
+    void when_start_button_is_clicked_subtask_button_is_enabled(FxRobot robot) {
+        robot.clickOn(buttonId);
+
+        robot.clickOn(startButton);
+
+        verifyThat(subtaskButton, NodeMatchers.isEnabled());
     }
 
     private NodeQuery lookup(String query) {
