@@ -40,12 +40,12 @@ public class SubtaskButtonTest {
 
         robot.clickOn(startButton);
 
-        final String rectId = "#new-subtask-bar-0-0-rect";
-        final String labelId = "#new-subtask-bar-0-0-label";
+        final String rectId = "#new-task-bar-0-0-rect";
+        final String labelId = "#new-task-bar-0-0-label";
 
         robot.clickOn(subtaskButton);
 
-        verifyThat("#new-subtask-bar-0-0", NodeMatchers.isVisible());
+        verifyThat("#new-task-bar-0-0", NodeMatchers.isVisible());
 
         verifyThat(rectId, NodeMatchers.isVisible());
         verifyThat(labelId, NodeMatchers.isVisible());
@@ -62,8 +62,8 @@ public class SubtaskButtonTest {
 
     @Test
     void when_subtask_is_started_bar_color_is_changed(FxRobot robot) {
-        final String rectId = "#new-subtask-bar-0-0-rect";
-        final String labelId = "#new-subtask-bar-0-0-label";
+        final String rectId = "#new-task-bar-0-0-rect";
+        final String labelId = "#new-task-bar-0-0-label";
 
         robot.clickOn(buttonId);
         robot.clickOn(startButton);
@@ -85,8 +85,8 @@ public class SubtaskButtonTest {
         robot.clickOn(subtaskButton);
         robot.clickOn(startButton);
 
-        final String rectId = "#new-subtask-bar-0-0-rect";
-        final String labelId = "#new-subtask-bar-0-0-label";
+        final String rectId = "#new-task-bar-0-0-rect";
+        final String labelId = "#new-task-bar-0-0-label";
 
         robot.clickOn(completeButton);
 
@@ -106,8 +106,8 @@ public class SubtaskButtonTest {
 
         robot.clickOn(completeButton);
 
-        verifyRectColor("#new-task-bar-rect-0", GRAY);
-        verifyLabelTextColor("#new-task-bar-label-0", WHITE);
+        verifyRectColor("#new-task-bar-0-rect", GRAY);
+        verifyLabelTextColor("#new-task-bar-0-label", WHITE);
 
         verifyThat(subtaskButton, NodeMatchers.isDisabled());
 

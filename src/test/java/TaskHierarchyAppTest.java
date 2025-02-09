@@ -69,10 +69,10 @@ class TaskHierarchyAppTest {
         verifyThat(buttonId, NodeMatchers.isDisabled());
 
         verifyThat(startButton, NodeMatchers.isDisabled());
-        Rectangle rect = lookup("#new-task-bar-rect-0").query();
+        Rectangle rect = lookup("#new-task-bar-0-rect").query();
         verifyThat((Color) rect.getFill(), ColorMatchers.isColor(Color.YELLOW));
 
-        Label label = lookup("#new-task-bar-label-0").query();
+        Label label = lookup("#new-task-bar-0-label").query();
         verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.BLACK));
 
         verifyThat(completeButton, NodeMatchers.isEnabled());
@@ -89,10 +89,10 @@ class TaskHierarchyAppTest {
         verifyThat(completeButton, NodeMatchers.isDisabled());
         verifyThat(buttonId, NodeMatchers.isEnabled());
 
-        Rectangle rect = lookup("#new-task-bar-rect-0").query();
+        Rectangle rect = lookup("#new-task-bar-0-rect").query();
         verifyThat((Color) rect.getFill(), ColorMatchers.isColor(Color.GRAY));
 
-        Label label = lookup("#new-task-bar-label-0").query();
+        Label label = lookup("#new-task-bar-0-label").query();
         verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.WHITE));
 
         verifyThat(subtaskButton, NodeMatchers.isDisabled());
