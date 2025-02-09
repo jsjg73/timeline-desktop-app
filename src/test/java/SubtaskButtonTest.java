@@ -69,12 +69,11 @@ public class SubtaskButtonTest {
 
         robot.clickOn(startButton);
 
-        taskIsStarted(rectId, labelId);
-    }
-
-    private void taskIsStarted(String rectId, String labelId) {
         verifyRectColor(rectId, Color.YELLOW);
         verifyLabelTextColor(labelId, Color.BLACK);
+
+        verifyThat(startButton, NodeMatchers.isDisabled());
+        verifyThat(completeButton, NodeMatchers.isEnabled());
     }
 
     private void barIsCreated(String rectId, String labelId) {

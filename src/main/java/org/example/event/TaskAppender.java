@@ -97,6 +97,9 @@ public class TaskAppender {
             e -> {
                 rect.setFill(Color.YELLOW);
                 label.setTextFill(Color.BLACK);
+
+                taskButtons.globalStart.setDisable(true);
+                taskButtons.globalComplete.setDisable(false);
             }
         );
 
