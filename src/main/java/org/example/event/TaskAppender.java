@@ -71,7 +71,7 @@ public class TaskAppender {
             new GlobalStartButtonEventHandler(rect, label, taskButtons)
         );
 
-        taskButtons.globalStop.setOnAction(
+        taskButtons.globalComplete.setOnAction(
             new GlobalStopButtonEventHandler(rect, label, taskButtons)
         );
 

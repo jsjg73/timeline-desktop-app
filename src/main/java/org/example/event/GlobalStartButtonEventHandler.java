@@ -27,6 +27,6 @@ public class GlobalStartButtonEventHandler implements EventHandler<ActionEvent> 
         taskBarLabel.setTextFill(Color.BLACK);
 
         taskButtons.globalStart.setDisable(true);
-        taskButtons.globalStop.setDisable(false);
+        taskButtons.globalComplete.setDisable(false);
     }
 }

@@ -38,7 +38,7 @@ public class TaskHierarchyScene {
         root.getChildren().addAll(taskNameField, parentTaskField,
                 buttons.addTaskButton,
                 buttons.globalStart,
-                buttons.globalStop,
+                buttons.globalComplete,
                 buttons.globalSubtask,
                 taskPane);
         return new Scene(root, 800, 600);

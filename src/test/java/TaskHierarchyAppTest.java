@@ -30,7 +30,7 @@ class TaskHierarchyAppTest {
 
     final String buttonId = "#" + TaskButtons.taskButtonId;
     final String startButton = "#" + TaskButtons.startButtonId;
-    final String stopButton = "#" + TaskButtons.stopButtonId;
+    final String completeButton = "#" + TaskButtons.completeButtonId;
     final String subtaskButton = "#" + TaskButtons.subtaskButtonId;
 
     @Test
@@ -40,8 +40,8 @@ class TaskHierarchyAppTest {
         verifyThat(startButton, LabeledMatchers.hasText("Start"));
         verifyThat(startButton, NodeMatchers.isDisabled());
 
-        verifyThat(stopButton, LabeledMatchers.hasText("Stop"));
-        verifyThat(stopButton, NodeMatchers.isDisabled());
+        verifyThat(completeButton, LabeledMatchers.hasText("Complete"));
+        verifyThat(completeButton, NodeMatchers.isDisabled());
 
         verifyThat(subtaskButton, LabeledMatchers.hasText("Subtask"));
         verifyThat(subtaskButton, NodeMatchers.isDisabled());
@@ -55,7 +55,7 @@ class TaskHierarchyAppTest {
         verifyThat(buttonId, NodeMatchers.isDisabled());
 
         verifyThat(startButton, NodeMatchers.isEnabled());
-        verifyThat(stopButton, NodeMatchers.isDisabled());
+        verifyThat(completeButton, NodeMatchers.isDisabled());
         verifyThat(subtaskButton, NodeMatchers.isDisabled());
     }
 
@@ -75,7 +75,7 @@ class TaskHierarchyAppTest {
         Label label = lookup("#new-task-bar-label-0").query();
         verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.BLACK));
 
-        verifyThat(stopButton, NodeMatchers.isEnabled());
+        verifyThat(completeButton, NodeMatchers.isEnabled());
         verifyThat(subtaskButton, NodeMatchers.isDisabled());
     }
 
@@ -84,9 +84,9 @@ class TaskHierarchyAppTest {
         robot.clickOn(buttonId);
         robot.clickOn(startButton);
 
-        robot.clickOn(stopButton);
+        robot.clickOn(completeButton);
 
-        verifyThat(stopButton, NodeMatchers.isDisabled());
+        verifyThat(completeButton, NodeMatchers.isDisabled());
         verifyThat(buttonId, NodeMatchers.isEnabled());
 
         Rectangle rect = lookup("#new-task-bar-rect-0").query();
