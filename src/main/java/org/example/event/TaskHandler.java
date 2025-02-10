@@ -1,5 +1,7 @@
 package org.example.event;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 
 public interface TaskHandler {
@@ -7,4 +9,5 @@ public interface TaskHandler {
     void plusNextTaskY(int value);
     StackPane getTaskBar();
     SubTaskEvent subtaskEvent();
+    EventHandler<ActionEvent> completeEvent();
 }

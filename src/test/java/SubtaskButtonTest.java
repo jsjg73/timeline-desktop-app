@@ -15,8 +15,7 @@ import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.service.query.NodeQuery;
 
-import static javafx.scene.paint.Color.GRAY;
-import static javafx.scene.paint.Color.WHITE;
+import static javafx.scene.paint.Color.*;
 import static org.testfx.api.FxAssert.verifyThat;
 
 @ExtendWith(ApplicationExtension.class)
@@ -113,6 +112,58 @@ public class SubtaskButtonTest {
 
         robot.clickOn(buttonId);
         verifyThat("#new-task-bar-1", NodeMatchers.isVisible());
+    }
+
+    //    하위 업무 재귀 생성 테스트;
+    @Test
+    void create_deep_depth_subtask(FxRobot robot) {
+        robot.clickOn(buttonId);
+        robot.clickOn(startButton);
+        robot.clickOn(subtaskButton);
+        robot.clickOn(startButton);
+
+        robot.clickOn(subtaskButton);
+        robot.clickOn(startButton);
+        verifyThat("#new-task-bar-0-0-0", NodeMatchers.isVisible());
+        robot.clickOn(completeButton);
+        verifyRectColor("#new-task-bar-0-0-0-rect", GRAY);
+        verifyLabelTextColor("#new-task-bar-0-0-0-label", WHITE);
+
+        robot.clickOn(subtaskButton);
+        verifyThat("#new-task-bar-0-0-1", NodeMatchers.isVisible());
+        verifyRectColor("#new-task-bar-0-0-1-rect", BLUE);
+        verifyLabelTextColor("#new-task-bar-0-0-1-label", WHITE);
+    }
+
+    @Test
+    void create_deep_depth_subtask_and_complete_all(FxRobot robot) {
+        robot.clickOn(buttonId);
+        robot.clickOn(startButton);
+
+        robot.clickOn(subtaskButton);
+        verifyThat("#new-task-bar-0-0", NodeMatchers.isVisible());
+        robot.clickOn(startButton);
+
+        robot.clickOn(subtaskButton);
+        verifyThat("#new-task-bar-0-0-0", NodeMatchers.isVisible());
+        robot.clickOn(startButton);
+
+        robot.clickOn(subtaskButton);
+        verifyThat("#new-task-bar-0-0-0-0", NodeMatchers.isVisible());
+        robot.clickOn(startButton);
+
+        robot.clickOn(completeButton);
+        verifyRectColor("#new-task-bar-0-0-0-0-rect", GRAY);
+
+        robot.clickOn(completeButton);
+        verifyRectColor("#new-task-bar-0-0-0-rect", GRAY);
+
+        robot.clickOn(completeButton);
+        verifyRectColor("#new-task-bar-0-0-rect", GRAY);
+
+        robot.clickOn(completeButton);
+        verifyRectColor("#new-task-bar-0-rect", GRAY);
+        verifyThat(buttonId, NodeMatchers.isEnabled());
     }
 
     private void barIsCreated(String rectId, String labelId) {

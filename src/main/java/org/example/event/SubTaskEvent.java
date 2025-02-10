@@ -20,6 +20,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     private final Pane taskPane;
     private StackPane stackPane;
     private SubTaskEvent subTaskEvent;
+    private EventHandler<ActionEvent> completeEventHandler;
 
     public SubTaskEvent(
             final TaskButtons taskButtons,
@@ -69,6 +70,11 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         return this.subTaskEvent;
     }
 
+    @Override
+    public EventHandler<ActionEvent> completeEvent() {
+        return this.completeEventHandler;
+    }
+
     private StackPane createSubTaskBarWithLabel(String taskName, int x, int y, int width, int height) {
         Rectangle rect = createSubtaskBar(x, y, width, height, Color.BLUE);
         Label label = createSubtaskLabel(taskName);
@@ -84,24 +90,21 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
             }
         );
 
-        taskButtons.globalComplete.setOnAction(
-            e -> {
-                rect.setFill(Color.GRAY);
-                label.setTextFill(Color.WHITE);
+        completeEventHandler = e -> {
+            rect.setFill(Color.GRAY);
+            label.setTextFill(Color.WHITE);
 
-                taskButtons.globalSubtask.setDisable(false);
-                taskButtons.globalSubtask.setOnAction(
+            taskButtons.globalSubtask.setDisable(false);
+            taskButtons.globalSubtask.setOnAction(
                     parent.subtaskEvent()
-                );
+            );
 
-                taskButtons.globalComplete.setOnAction(
-                        new GlobalStopButtonEventHandler(
-                                (Rectangle) parent.getTaskBar().getChildren().get(0),
-                                (Label) parent.getTaskBar().getChildren().get(1),
-                                taskButtons)
-                );
-            }
-        );
+            taskButtons.globalComplete.setOnAction(
+                    parent.completeEvent()
+            );
+        };
+
+        taskButtons.globalComplete.setOnAction(completeEventHandler);
 
         subTaskEvent = new SubTaskEvent(taskButtons, this, indent + 1, taskPane);
         taskButtons.globalSubtask.setOnAction(subTaskEvent);

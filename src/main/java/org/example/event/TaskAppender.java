@@ -1,5 +1,7 @@
 package org.example.event;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -17,6 +19,7 @@ public class TaskAppender implements TaskHandler{
     private final int indentLevel = 0;
     private int nextTaskY;
     private SubTaskEvent subTaskEvent;
+    private EventHandler<ActionEvent> completeEventHandler;
 
     private StackPane rootTask;
 
@@ -64,9 +67,8 @@ public class TaskAppender implements TaskHandler{
             new GlobalStartButtonEventHandler(rect, label, taskButtons)
         );
 
-        taskButtons.globalComplete.setOnAction(
-            new GlobalStopButtonEventHandler(rect, label, taskButtons)
-        );
+        completeEventHandler = new GlobalStopButtonEventHandler(rect, label, taskButtons);
+        taskButtons.globalComplete.setOnAction(completeEventHandler);
 
         this.subTaskEvent = new SubTaskEvent(taskButtons, this, indentLevel + 1, taskPane);
         taskButtons.globalSubtask.setOnAction(subTaskEvent);
@@ -95,5 +97,10 @@ public class TaskAppender implements TaskHandler{
 
     public SubTaskEvent subtaskEvent() {
         return this.subTaskEvent;
+    }
+
+    @Override
+    public EventHandler<ActionEvent> completeEvent() {
+        return this.completeEventHandler;
     }
 }
