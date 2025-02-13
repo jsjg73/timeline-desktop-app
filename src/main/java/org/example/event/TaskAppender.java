@@ -23,10 +23,10 @@ public class TaskAppender implements TaskHandler{
 
     private StackPane rootTask;
 
-    public TaskAppender(TaskButtons taskButtons, Pane taskPane, int nextTaskY) {
+    public TaskAppender(TaskButtons taskButtons, Pane taskPane) {
         this.taskPane = taskPane;
         this.taskButtons = taskButtons;
-        this. nextTaskY = nextTaskY;
+        this. nextTaskY = 50;
     }
 
     public void addTask(String taskName) {

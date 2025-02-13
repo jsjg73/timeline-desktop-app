@@ -1,6 +1,12 @@
 package org.example;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import org.example.event.AddTaskEvent;
+import org.example.event.ControlGlobalButtons;
+import org.example.event.TaskAppender;
 
 public class TaskButtons {
     public static final String taskButtonId= "addTaskButton";
@@ -24,5 +30,25 @@ public class TaskButtons {
 
         globalSubtask.setId(subtaskButtonId);
         globalSubtask.setDisable(true);
+    }
+
+    public void handleTaskButton(TextField taskNameField,
+                                 Pane taskPane) {
+        addTaskButton.setOnAction(
+            new ControlGlobalButtons(
+                this,
+                new AddTaskEvent(taskNameField,
+                    new TaskAppender(this, taskPane))
+            )
+        );
+    }
+
+    public void draw(VBox root) {
+        root.getChildren().addAll(
+                addTaskButton,
+                globalStart,
+                globalComplete,
+                globalSubtask
+        );
     }
 }

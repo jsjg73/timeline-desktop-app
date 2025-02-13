@@ -12,7 +12,11 @@ import org.example.event.TaskAppender;
 public class TaskHierarchyScene {
 
     private final Pane taskPane = new Pane();// 작업이 표시될 패널
-    private final TaskButtons buttons = new TaskButtons();// 작업이 표시될 패널
+    private final TaskButtons buttons = createButtons();// 작업이 표시될 패널
+
+    private TaskButtons createButtons(){
+        return new TaskButtons();
+    }
 
     public Scene draw() {
         VBox root = new VBox(10);
@@ -26,21 +30,13 @@ public class TaskHierarchyScene {
         parentTaskField.setPromptText("Enter Parent Task (optional)");
 
         // 작업 추가 버튼 클릭 이벤트
-        buttons.addTaskButton.setOnAction(
-            new ControlGlobalButtons(
-                    buttons,
-                new AddTaskEvent(taskNameField,
-                    new TaskAppender(buttons, taskPane, 50))
-            )
-        );
+        buttons.handleTaskButton(taskNameField, taskPane);
 
         // 기본 레이아웃 설정
-        root.getChildren().addAll(taskNameField, parentTaskField,
-                buttons.addTaskButton,
-                buttons.globalStart,
-                buttons.globalComplete,
-                buttons.globalSubtask,
-                taskPane);
+        root.getChildren().addAll(taskNameField, parentTaskField);
+        buttons.draw(root);
+        root.getChildren().add(taskPane);
+
         return new Scene(root, 800, 600);
     }
 }
