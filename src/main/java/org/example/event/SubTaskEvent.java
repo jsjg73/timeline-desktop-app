@@ -32,9 +32,9 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     public void handle(ActionEvent actionEvent) {
         addSubtask("새 하위 업무");
 
-        taskButtons.globalStart.setDisable(false);
-        taskButtons.globalComplete.setDisable(true);
-        taskButtons.globalSubtask.setDisable(true);
+        taskButtons.enableStartButton();
+        taskButtons.disableCompleteButton();
+        taskButtons.disableSubtaskButton();
     }
 
     public void addSubtask(String subtaskName) {
@@ -42,6 +42,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         this.stackPane = subtaskPane;
 
         this.drawBar(subtaskPane);
+        plusNextTaskY(50);
     }
 
     @Override
@@ -57,7 +58,6 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     @Override
     public void drawBar(StackPane taskBar) {
         parent.drawBar(taskBar);
-        plusNextTaskY(50);
     }
 
     @Override

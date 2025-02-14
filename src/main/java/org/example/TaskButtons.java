@@ -20,10 +20,10 @@ public class TaskButtons {
     public static final String completeButtonId = "globalCompleteButton";
     public static final String subtaskButtonId= "globalSubtaskButton";
 
-    public final Button addTaskButton = new Button("Add Task");
-    public final Button globalStart = new Button("Start");
-    public final Button globalComplete = new Button("Complete");
-    public final Button globalSubtask = new Button("Subtask");
+    private final Button addTaskButton = new Button("Add Task");
+    private final Button globalStart = new Button("Start");
+    private final Button globalComplete = new Button("Complete");
+    private final Button globalSubtask = new Button("Subtask");
 
     private final List<EventHandler<ActionEvent>> completeEventHandlers = new ArrayList<>();
     private final List<EventHandler<ActionEvent>> subtaskEventHandlers = new ArrayList<>();
@@ -32,13 +32,13 @@ public class TaskButtons {
         addTaskButton.setId(taskButtonId);
 
         globalStart.setId(startButtonId);
-        globalStart.setDisable(true);
+        disableStartButton();
 
         globalComplete.setId(completeButtonId);
-        globalComplete.setDisable(true);
+        disableCompleteButton();
 
         globalSubtask.setId(subtaskButtonId);
-        globalSubtask.setDisable(true);
+        disableSubtaskButton();
     }
 
     public void handleTaskButton(TextField taskNameField,
@@ -95,9 +95,9 @@ public class TaskButtons {
                 rect.setFill(Color.YELLOW);
                 label.setTextFill(Color.BLACK);
 
-                globalStart.setDisable(true);
-                globalComplete.setDisable(false);
-                globalSubtask.setDisable(false);
+                disableStartButton();
+                enableCompleteButton();
+                enableSubtaskButton();
             }
         );
 
@@ -108,7 +108,7 @@ public class TaskButtons {
             rect.setFill(Color.GRAY);
             label.setTextFill(Color.WHITE);
 
-            globalSubtask.setDisable(false);
+            enableSubtaskButton();
         };
 
         completeEventHandlers.add(completeEventHandler);
@@ -116,7 +116,31 @@ public class TaskButtons {
         subtaskEventHandlers.add(new SubTaskEvent(this, parent, indent));
     }
 
+    public void enableSubtaskButton() {
+        globalSubtask.setDisable(false);
+    }
+
+    public void enableCompleteButton() {
+        globalComplete.setDisable(false);
+    }
+
+    public void disableStartButton() {
+        globalStart.setDisable(true);
+    }
+
     public void removeLastComplete() {
         completeEventHandlers.removeLast();
+    }
+
+    public void enableAddTaskButton() {
+        addTaskButton.setDisable(false);
+    }
+
+    public void disableSubtaskButton() {
+        globalSubtask.setDisable(true);
+    }
+
+    public void disableCompleteButton() {
+        globalComplete.setDisable(true);
     }
 }

@@ -26,8 +26,8 @@ public class GlobalStopButtonEventHandler implements EventHandler<ActionEvent> {
         taskBarRectangle.setFill(Color.GRAY);
         taskBarLabel.setTextFill(Color.WHITE);
 
-        taskButtons.globalComplete.setDisable(true);
-        taskButtons.addTaskButton.setDisable(false);
-        taskButtons.globalSubtask.setDisable(true);
+        taskButtons.disableCompleteButton();
+        taskButtons.enableAddTaskButton();
+        taskButtons.disableSubtaskButton();
     }
 }
