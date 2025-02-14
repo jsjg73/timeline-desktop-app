@@ -78,12 +78,10 @@ public class TaskButtons {
         );
 
         completeEventHandlers.add(new GlobalStopButtonEventHandler(rect, label, this));
-        this.globalComplete.setOnAction(completeEventHandlers.getLast());
+        this.globalComplete.setOnAction( e -> completeEventHandlers.getLast().handle(e));
 
         subtaskEventHandlers.add(new SubTaskEvent(this, parent, indent));
-        this.globalSubtask.setOnAction(
-            subtaskEventHandlers.getLast()
-        );
+        this.globalSubtask.setOnAction(e -> subtaskEventHandlers.getLast().handle(e));
     }
 
     public void handlerAfterCreateSubtask(
@@ -111,23 +109,11 @@ public class TaskButtons {
             label.setTextFill(Color.WHITE);
 
             globalSubtask.setDisable(false);
-            globalSubtask.setOnAction(
-                subtaskEventHandlers.getLast()
-            );
-
-            globalComplete.setOnAction(
-                completeEventHandlers.getLast()
-            );
         };
 
         completeEventHandlers.add(completeEventHandler);
-        globalComplete.setOnAction(completeEventHandler);
-
 
         subtaskEventHandlers.add(new SubTaskEvent(this, parent, indent));
-        globalSubtask.setOnAction(
-            subtaskEventHandlers.getLast()
-        );
     }
 
     public void removeLastComplete() {
