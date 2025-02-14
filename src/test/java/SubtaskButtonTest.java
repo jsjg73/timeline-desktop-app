@@ -20,11 +20,13 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 @ExtendWith(ApplicationExtension.class)
 public class SubtaskButtonTest {
+
     @Start
-    private void start(Stage stage) {
+    public void start(Stage stage) {
         TaskHierarchyScene hierarchyScene = new TaskHierarchyScene();
         stage.setTitle("Task Hierarchy Example");
         stage.setScene(hierarchyScene.draw());
+        stage.setAlwaysOnTop(true);
         stage.show();
     }
 
@@ -35,6 +37,7 @@ public class SubtaskButtonTest {
 
     @Test
     void when_subtask_button_is_clicked_subtask_bar_is_created(FxRobot robot) {
+        robot.sleep(500);
         robot.clickOn(buttonId);
 
         robot.clickOn(startButton);
@@ -48,7 +51,9 @@ public class SubtaskButtonTest {
 
         verifyThat(rectId, NodeMatchers.isVisible());
         verifyThat(labelId, NodeMatchers.isVisible());
-        barIsCreated(rectId, labelId);
+
+        verifyRectColor(rectId, Color.BLUE);
+        verifyLabelTextColor(labelId, Color.WHITE);
 
         verifyThat(labelId, LabeledMatchers.hasText("새 하위 업무"));
 
@@ -164,11 +169,6 @@ public class SubtaskButtonTest {
         robot.clickOn(completeButton);
         verifyRectColor("#new-task-bar-0-rect", GRAY);
         verifyThat(buttonId, NodeMatchers.isEnabled());
-    }
-
-    private void barIsCreated(String rectId, String labelId) {
-        verifyRectColor(rectId, Color.BLUE);
-        verifyLabelTextColor(labelId, Color.WHITE);
     }
 
     private void verifyRectColor(String rectId, Color color) {

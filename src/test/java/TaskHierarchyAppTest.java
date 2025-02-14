@@ -25,6 +25,7 @@ class TaskHierarchyAppTest {
         TaskHierarchyScene hierarchyScene = new TaskHierarchyScene();
         stage.setTitle("Task Hierarchy Example");
         stage.setScene(hierarchyScene.draw());
+        stage.setAlwaysOnTop(true);
         stage.show();
     }
 
