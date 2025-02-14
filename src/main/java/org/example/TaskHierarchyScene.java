@@ -5,9 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.example.event.AddTaskEvent;
-import org.example.event.ControlGlobalButtons;
-import org.example.event.TaskAppender;
 
 public class TaskHierarchyScene {
 
@@ -29,13 +26,13 @@ public class TaskHierarchyScene {
         TextField parentTaskField = new TextField();
         parentTaskField.setPromptText("Enter Parent Task (optional)");
 
-        // 작업 추가 버튼 클릭 이벤트
-        buttons.handleTaskButton(taskNameField, taskPane);
-
         // 기본 레이아웃 설정
         root.getChildren().addAll(taskNameField, parentTaskField);
         buttons.draw(root);
         root.getChildren().add(taskPane);
+
+        // 작업 추가 버튼 클릭 이벤트
+        buttons.handleTaskButton(taskNameField, taskPane);
 
         return new Scene(root, 800, 600);
     }

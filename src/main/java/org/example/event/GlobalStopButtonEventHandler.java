@@ -22,6 +22,7 @@ public class GlobalStopButtonEventHandler implements EventHandler<ActionEvent> {
     }
     @Override
     public void handle(ActionEvent actionEvent) {
+        taskButtons.removeLastComplete();
         taskBarRectangle.setFill(Color.GRAY);
         taskBarLabel.setTextFill(Color.WHITE);
 

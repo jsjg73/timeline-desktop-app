@@ -17,19 +17,15 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     private final TaskButtons taskButtons;
     private final TaskHandler parent;
     private final int indent;
-    private final Pane taskPane;
     private StackPane stackPane;
-    private SubTaskEvent subTaskEvent;
-    private EventHandler<ActionEvent> completeEventHandler;
 
     public SubTaskEvent(
             final TaskButtons taskButtons,
             final TaskHandler parent,
-            int indent, Pane taskPane) {
+            int indent) {
         this.taskButtons = taskButtons;
         this.parent = parent;
         this.indent = indent;
-        this.taskPane = taskPane;
     }
 
     @Override
@@ -45,9 +41,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, 50 + (indent * 30), nextTaskY(), 200, 30);
         this.stackPane = subtaskPane;
 
-        taskPane.getChildren().addAll(subtaskPane);
-
-        plusNextTaskY(50);
+        this.drawBar(subtaskPane);
     }
 
     @Override
@@ -61,53 +55,22 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     }
 
     @Override
-    public StackPane getTaskBar() {
-        return stackPane;
+    public void drawBar(StackPane taskBar) {
+        parent.drawBar(taskBar);
+        plusNextTaskY(50);
     }
 
     @Override
-    public SubTaskEvent subtaskEvent() {
-        return this.subTaskEvent;
-    }
-
-    @Override
-    public EventHandler<ActionEvent> completeEvent() {
-        return this.completeEventHandler;
+    public String taskBarId() {
+        return stackPane.getId();
     }
 
     private StackPane createSubTaskBarWithLabel(String taskName, int x, int y, int width, int height) {
         Rectangle rect = createSubtaskBar(x, y, width, height, Color.BLUE);
         Label label = createSubtaskLabel(taskName);
 
-        taskButtons.globalStart.setOnAction(
-            e -> {
-                rect.setFill(Color.YELLOW);
-                label.setTextFill(Color.BLACK);
 
-                taskButtons.globalStart.setDisable(true);
-                taskButtons.globalComplete.setDisable(false);
-                taskButtons.globalSubtask.setDisable(false);
-            }
-        );
-
-        completeEventHandler = e -> {
-            rect.setFill(Color.GRAY);
-            label.setTextFill(Color.WHITE);
-
-            taskButtons.globalSubtask.setDisable(false);
-            taskButtons.globalSubtask.setOnAction(
-                    parent.subtaskEvent()
-            );
-
-            taskButtons.globalComplete.setOnAction(
-                    parent.completeEvent()
-            );
-        };
-
-        taskButtons.globalComplete.setOnAction(completeEventHandler);
-
-        subTaskEvent = new SubTaskEvent(taskButtons, this, indent + 1, taskPane);
-        taskButtons.globalSubtask.setOnAction(subTaskEvent);
+        taskButtons.handlerAfterCreateSubtask(rect, label, this, indent + 1);
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);
@@ -121,7 +84,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     }
 
     private String parentTaskBarId() {
-        return parent.getTaskBar().getId();
+        return parent.taskBarId();
     }
 
     private Rectangle createSubtaskBar(int x, int y, int width, int height, Color color) {
