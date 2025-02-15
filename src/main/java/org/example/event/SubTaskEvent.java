@@ -3,7 +3,6 @@ package org.example.event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -16,17 +15,17 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     private final AtomicInteger subtaskBarCount = new AtomicInteger();
     private final TaskButtons taskButtons;
     private final TaskHandler parent;
-    private final int indent;
+    private final int depth;
     private StackPane stackPane;
     private int xPadding;
 
     public SubTaskEvent(
             final TaskButtons taskButtons,
             final TaskHandler parent,
-            int indent) {
+            int depth) {
         this.taskButtons = taskButtons;
         this.parent = parent;
-        this.indent = indent;
+        this.depth = depth;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
 
     public void addSubtask(String subtaskName) {
         final int width = 70;
-        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, 50 + xPadding + (indent * 30), nextTaskY(), width, 30);
+        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, 50 + xPadding + (depth * 30), (depth + 1) * 50, width, 30);
         this.stackPane = subtaskPane;
 
         this.drawBar(subtaskPane);
@@ -72,7 +71,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         Rectangle rect = createSubtaskBar(x, y, width, height, Color.BLUE);
         Label label = createSubtaskLabel(taskName);
 
-        taskButtons.handlerAfterCreateSubtask(rect, label, this, indent + 1);
+        taskButtons.handlerAfterCreateSubtask(rect, label, this, depth + 1);
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);

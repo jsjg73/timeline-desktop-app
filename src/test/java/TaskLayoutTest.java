@@ -56,6 +56,28 @@ public class TaskLayoutTest {
         assertThat(sub02.getY()).isEqualTo(100);
     }
 
+    @Test
+    void 깊이_2이상_하위_업무의_레이아웃(FxRobot robot) {
+        robot.clickOn(buttonId);
+        robot.clickOn(startButton);
+
+        robot.clickOn(subtaskButton);
+        robot.clickOn(startButton);
+
+        robot.clickOn(subtaskButton);
+        robot.clickOn(startButton);
+
+        Rectangle dept2 = lookup("#new-task-bar-0-0-0-rect").query();
+        assertThat(dept2.getX()).isEqualTo(110);
+        assertThat(dept2.getY()).isEqualTo(150);
+
+        robot.clickOn(subtaskButton);
+        Rectangle depth3 = lookup("#new-task-bar-0-0-0-0-rect").query();
+        assertThat(depth3.getX()).isEqualTo(140);
+        assertThat(depth3.getY()).isEqualTo(200);
+
+    }
+
 
 
     private NodeQuery lookup(String query) {
