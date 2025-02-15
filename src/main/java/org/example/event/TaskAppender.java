@@ -51,7 +51,7 @@ public class TaskAppender implements TaskHandler{
         Rectangle rect =
             TaskRectangle.create(
                 rootTask.getId(),
-                x, y, 200, 30,
+                x, y, 70, 30,
                 Color.BLUE
             );
         Label label = TaskLabel.create(rootTask.getId(), taskName);

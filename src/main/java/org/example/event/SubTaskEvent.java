@@ -18,6 +18,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     private final TaskHandler parent;
     private final int indent;
     private StackPane stackPane;
+    private int xPadding;
 
     public SubTaskEvent(
             final TaskButtons taskButtons,
@@ -38,11 +39,13 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     }
 
     public void addSubtask(String subtaskName) {
-        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, 50 + (indent * 30), nextTaskY(), 200, 30);
+        final int width = 70;
+        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, 50 + xPadding + (indent * 30), nextTaskY(), width, 30);
         this.stackPane = subtaskPane;
 
         this.drawBar(subtaskPane);
-        plusNextTaskY(50);
+        xPadding += width + 10;
+//        plusNextTaskY(50);
     }
 
     @Override
@@ -68,7 +71,6 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     private StackPane createSubTaskBarWithLabel(String taskName, int x, int y, int width, int height) {
         Rectangle rect = createSubtaskBar(x, y, width, height, Color.BLUE);
         Label label = createSubtaskLabel(taskName);
-
 
         taskButtons.handlerAfterCreateSubtask(rect, label, this, indent + 1);
 

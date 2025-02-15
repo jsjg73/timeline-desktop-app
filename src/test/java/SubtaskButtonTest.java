@@ -37,7 +37,6 @@ public class SubtaskButtonTest {
 
     @Test
     void when_subtask_button_is_clicked_subtask_bar_is_created(FxRobot robot) {
-        robot.sleep(500);
         robot.clickOn(buttonId);
 
         robot.clickOn(startButton);
