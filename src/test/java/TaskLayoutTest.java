@@ -30,7 +30,7 @@ public class TaskLayoutTest {
 
     @Test
     void 깊이가_같은_subtask는_가로로_추가됨(FxRobot robot) {
-        startRootTask(robot);
+        newStartRootTask(robot);
         Rectangle task = lookup("#new-task-bar-0-rect").query();
         assertThat(task.getX()).isEqualTo(50);
         assertThat(task.getY()).isEqualTo(50);
@@ -48,7 +48,7 @@ public class TaskLayoutTest {
 
     @Test
     void 깊이_2이상_하위_업무의_레이아웃(FxRobot robot) {
-        startRootTask(robot);
+        newStartRootTask(robot);
 
         startNewSubTask(robot);
 
@@ -64,13 +64,39 @@ public class TaskLayoutTest {
 
     }
 
-    private void startNewSubTask(FxRobot robot) {
-        robot.clickOn(subtaskButton);
+    @Test
+    void 최상위_업무의_레이아웃(FxRobot robot) {
+        newStartRootTask(robot);
+        completeNewSubtask(robot);
+        robot.clickOn(completeButton);
+
+        newStartRootTask(robot);
+
+        Rectangle secondRect = lookup("#new-task-bar-1-rect").query();
+        assertThat(secondRect.getX()).isEqualTo(50);
+        assertThat(secondRect.getY()).isEqualTo(150);
+
+        completeNewSubtask(robot);
+        robot.clickOn(completeButton);
+
+        Rectangle thirdRect = lookup("#new-task-bar-2-rect").query();
+        assertThat(thirdRect.getX()).isEqualTo(50);
+        assertThat(thirdRect.getY()).isEqualTo(250);
+
+    }
+
+    private void newStartRootTask(FxRobot robot) {
+        robot.clickOn(buttonId);
         robot.clickOn(startButton);
     }
 
-    private void startRootTask(FxRobot robot) {
-        robot.clickOn(buttonId);
+    private void completeRootTask(FxRobot robot) {
+        newStartRootTask(robot);
+        robot.clickOn(completeButton);
+    }
+
+    private void startNewSubTask(FxRobot robot) {
+        robot.clickOn(subtaskButton);
         robot.clickOn(startButton);
     }
 
