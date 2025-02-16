@@ -33,11 +33,16 @@ public class TaskAppender implements TaskHandler{
         // 작업 패널에 추가
         this.drawBar(taskBar);
 
-        nextTaskY += 50; // 다음 부모 작업 위치 갱신
+//        nextTaskY += 50; // 다음 부모 작업 위치 갱신
+        updateNextTaskY();
         barCount.incrementAndGet();
 
         taskButtons.disableTaskButton();
         taskButtons.enableStartButton();
+    }
+
+    public void updateNextTaskY() {
+        nextTaskY += 50;
     }
 
     // 작업 막대와 라벨을 겹쳐서 생성
@@ -75,11 +80,6 @@ public class TaskAppender implements TaskHandler{
     @Override
     public int nextTaskY() {
         return this.nextTaskY;
-    }
-
-    @Override
-    public void plusNextTaskY(int value) {
-        nextTaskY+=value;
     }
 
     @Override

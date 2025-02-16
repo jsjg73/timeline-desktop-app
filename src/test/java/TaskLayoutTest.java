@@ -79,6 +79,7 @@ public class TaskLayoutTest {
         completeNewSubtask(robot);
         robot.clickOn(completeButton);
 
+        newStartRootTask(robot);
         Rectangle thirdRect = lookup("#new-task-bar-2-rect").query();
         assertThat(thirdRect.getX()).isEqualTo(50);
         assertThat(thirdRect.getY()).isEqualTo(250);

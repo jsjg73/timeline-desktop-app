@@ -4,7 +4,7 @@ import javafx.scene.layout.StackPane;
 
 public interface TaskHandler {
     int nextTaskY();
-    void plusNextTaskY(int value);
+    void updateNextTaskY();
     void drawBar(StackPane taskBar);
     String taskBarId();
 }

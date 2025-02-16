@@ -44,7 +44,11 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
 
         this.drawBar(subtaskPane);
         xPadding += width + 10;
-//        plusNextTaskY(50);
+
+        if (subtaskBarCount.get() == 0) {
+            updateNextTaskY();
+        }
+        subtaskBarCount.incrementAndGet();
     }
 
     @Override
@@ -52,9 +56,8 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         return parent.nextTaskY();
     }
 
-    @Override
-    public void plusNextTaskY(int value) {
-        parent.plusNextTaskY(value);
+    public void updateNextTaskY() {
+        parent.updateNextTaskY();
     }
 
     @Override
@@ -79,8 +82,6 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         stackPane.setLayoutY(y);
 
         stackPane.setId(parentTaskBarId() + "-" + subtaskBarCount.get());
-
-        subtaskBarCount.incrementAndGet();
         return stackPane;
     }
 
