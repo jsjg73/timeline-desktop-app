@@ -1,6 +1,5 @@
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.assertj.core.api.Assertions;
 import org.example.TaskButtons;
 import org.example.TaskHierarchyScene;
 import org.junit.jupiter.api.Test;
@@ -9,8 +8,6 @@ import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import org.testfx.matcher.base.GeometryMatchers;
-import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.service.query.NodeQuery;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,24 +30,17 @@ public class TaskLayoutTest {
 
     @Test
     void 깊이가_같은_subtask는_가로로_추가됨(FxRobot robot) {
-        robot.clickOn(buttonId);
-
+        startRootTask(robot);
         Rectangle task = lookup("#new-task-bar-0-rect").query();
-
         assertThat(task.getX()).isEqualTo(50);
         assertThat(task.getY()).isEqualTo(50);
 
-        robot.clickOn(startButton);
-        robot.clickOn(subtaskButton);
-
+        completeNewSubtask(robot);
         Rectangle subtask = lookup("#new-task-bar-0-0-rect").query();
         assertThat(subtask.getX()).isEqualTo(80);
         assertThat(subtask.getY()).isEqualTo(100);
 
-        robot.clickOn(startButton);
-        robot.clickOn(completeButton);
-
-        robot.clickOn(subtaskButton);
+        startNewSubTask(robot);
         Rectangle sub02 = lookup("#new-task-bar-0-1-rect").query();
         assertThat(sub02.getX()).isEqualTo(160);
         assertThat(sub02.getY()).isEqualTo(100);
@@ -58,27 +48,36 @@ public class TaskLayoutTest {
 
     @Test
     void 깊이_2이상_하위_업무의_레이아웃(FxRobot robot) {
-        robot.clickOn(buttonId);
-        robot.clickOn(startButton);
+        startRootTask(robot);
 
-        robot.clickOn(subtaskButton);
-        robot.clickOn(startButton);
+        startNewSubTask(robot);
 
-        robot.clickOn(subtaskButton);
-        robot.clickOn(startButton);
-
+        startNewSubTask(robot);
         Rectangle dept2 = lookup("#new-task-bar-0-0-0-rect").query();
         assertThat(dept2.getX()).isEqualTo(110);
         assertThat(dept2.getY()).isEqualTo(150);
 
-        robot.clickOn(subtaskButton);
+        startNewSubTask(robot);
         Rectangle depth3 = lookup("#new-task-bar-0-0-0-0-rect").query();
         assertThat(depth3.getX()).isEqualTo(140);
         assertThat(depth3.getY()).isEqualTo(200);
 
     }
 
+    private void startNewSubTask(FxRobot robot) {
+        robot.clickOn(subtaskButton);
+        robot.clickOn(startButton);
+    }
 
+    private void startRootTask(FxRobot robot) {
+        robot.clickOn(buttonId);
+        robot.clickOn(startButton);
+    }
+
+    private void completeNewSubtask(FxRobot robot) {
+        startNewSubTask(robot);
+        robot.clickOn(completeButton);
+    }
 
     private NodeQuery lookup(String query) {
         return FxAssert.assertContext()
