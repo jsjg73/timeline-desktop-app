@@ -15,6 +15,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     private final AtomicInteger subtaskBarCount = new AtomicInteger();
     private final TaskButtons taskButtons;
     private final TaskHandler parent;
+    private int baseX;
     private final int baseY;
     private final int depth;
     private StackPane stackPane;
@@ -23,10 +24,12 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     public SubTaskEvent(
             final TaskButtons taskButtons,
             final TaskHandler parent,
+            int baseX,
             int baseY,
             int depth) {
         this.taskButtons = taskButtons;
         this.parent = parent;
+        this.baseX = baseX;
         this.baseY = baseY;
         this.depth = depth;
     }
@@ -42,11 +45,11 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
 
     public void addSubtask(String subtaskName) {
         final int width = 70;
-        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, 50 + xPadding + (depth * 30), baseY + depth * 50, width, 30);
+        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, baseX, baseY + depth * 50, width, 30);
         this.stackPane = subtaskPane;
 
         this.drawBar(subtaskPane);
-        xPadding += width + 10;
+        baseX += width + 10;
 
         if (subtaskBarCount.get() == 0) {
             updateBaseY();
@@ -72,7 +75,8 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         Rectangle rect = createSubtaskBar(x, y, width, height, Color.BLUE);
         Label label = createSubtaskLabel(taskName);
 
-        taskButtons.handlerAfterCreateSubtask(rect, label, this, baseY, depth + 1);
+        taskButtons.handlerAfterCreateSubtask(rect, label, this,
+                x + 30, baseY, depth + 1);
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);

@@ -106,6 +106,27 @@ public class TaskLayoutTest {
             assertThat(subtask_1.getY()).isEqualTo(200);
     }
 
+    @Test
+    void 서브태스크는_상위업무의_x근처에서부터_출력(FxRobot robot) {
+        startNewTask(robot);
+            completeNewSubtask(robot);
+            startNewSubTask(robot);
+                startNewSubTask(robot);
+                    startNewSubTask(robot);
+
+        assertLayoutX("#new-task-bar-0-1-rect", 160);
+        assertLayoutX("#new-task-bar-0-1-0-rect", 190);
+        assertLayoutX("#new-task-bar-0-1-0-0-rect", 220);
+    }
+
+    // 다음 할 일;
+        // start 버튼  제거;
+        // 하위 업무 완료 후 상위 업무 돌아왔을 때 x 위치 반영.
+    private void assertLayoutX(String query, int x) {
+        Rectangle rect = lookup(query).query();
+        assertThat(rect.getX()).isEqualTo(x);
+    }
+
     private void startNewTask(FxRobot robot) {
         robot.clickOn(buttonId);
         robot.clickOn(startButton);
