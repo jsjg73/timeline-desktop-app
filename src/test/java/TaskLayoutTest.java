@@ -30,7 +30,7 @@ public class TaskLayoutTest {
 
     @Test
     void 깊이가_같은_subtask는_가로로_추가됨(FxRobot robot) {
-        newStartRootTask(robot);
+        startNewTask(robot);
         Rectangle task = lookup("#new-task-bar-0-rect").query();
         assertThat(task.getX()).isEqualTo(50);
         assertThat(task.getY()).isEqualTo(50);
@@ -48,7 +48,7 @@ public class TaskLayoutTest {
 
     @Test
     void 깊이_2이상_하위_업무의_레이아웃(FxRobot robot) {
-        newStartRootTask(robot);
+        startNewTask(robot);
 
         startNewSubTask(robot);
 
@@ -66,11 +66,11 @@ public class TaskLayoutTest {
 
     @Test
     void 최상위_업무의_레이아웃(FxRobot robot) {
-        newStartRootTask(robot);
+        startNewTask(robot);
         completeNewSubtask(robot);
         robot.clickOn(completeButton);
 
-        newStartRootTask(robot);
+        startNewTask(robot);
 
         Rectangle secondRect = lookup("#new-task-bar-1-rect").query();
         assertThat(secondRect.getX()).isEqualTo(50);
@@ -79,20 +79,40 @@ public class TaskLayoutTest {
         completeNewSubtask(robot);
         robot.clickOn(completeButton);
 
-        newStartRootTask(robot);
+        startNewTask(robot);
         Rectangle thirdRect = lookup("#new-task-bar-2-rect").query();
         assertThat(thirdRect.getX()).isEqualTo(50);
         assertThat(thirdRect.getY()).isEqualTo(250);
 
     }
 
-    private void newStartRootTask(FxRobot robot) {
+    // 두 번 째 Task의 하위 업무들 레이아웃 버그 수정.
+    @Test
+    void 두번째_Task의_하위업무_레이아웃(FxRobot robot) {
+        startNewTask(robot);
+            completeNewSubtask(robot);
+        robot.clickOn(completeButton);
+
+        startNewTask(robot);
+            startNewSubTask(robot);
+            Rectangle subtask_0 = lookup("#new-task-bar-1-0-rect").query();
+            assertThat(subtask_0.getX()).isEqualTo(80);
+            assertThat(subtask_0.getY()).isEqualTo(200);
+            robot.clickOn(completeButton);
+
+            startNewSubTask(robot);
+            Rectangle subtask_1 = lookup("#new-task-bar-1-1-rect").query();
+            assertThat(subtask_1.getX()).isEqualTo(160);
+            assertThat(subtask_1.getY()).isEqualTo(200);
+    }
+
+    private void startNewTask(FxRobot robot) {
         robot.clickOn(buttonId);
         robot.clickOn(startButton);
     }
 
     private void completeRootTask(FxRobot robot) {
-        newStartRootTask(robot);
+        startNewTask(robot);
         robot.clickOn(completeButton);
     }
 

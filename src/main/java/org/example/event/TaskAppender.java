@@ -16,14 +16,14 @@ public class TaskAppender implements TaskHandler{
     private final AtomicInteger barCount = new AtomicInteger();
     private final Pane taskPane;
     private final TaskButtons taskButtons;
-    private int nextTaskY;
-
+    private int baseY;
+    private int nextY;
     private StackPane rootTask;
 
     public TaskAppender(TaskButtons taskButtons, Pane taskPane) {
         this.taskPane = taskPane;
         this.taskButtons = taskButtons;
-        this. nextTaskY = 50;
+        this.baseY = nextY = 50;
     }
 
     public void drawTaskBar(String taskName) {
@@ -34,21 +34,21 @@ public class TaskAppender implements TaskHandler{
         this.drawBar(taskBar);
 
 //        nextTaskY += 50; // 다음 부모 작업 위치 갱신
-        updateNextTaskY();
+        updateBaseY();
         barCount.incrementAndGet();
 
         taskButtons.disableTaskButton();
         taskButtons.enableStartButton();
     }
 
-    public void updateNextTaskY() {
-        nextTaskY += 50;
+    public void updateBaseY() {
+        baseY += 50;
     }
 
     // 작업 막대와 라벨을 겹쳐서 생성
     private StackPane createTaskBar(String taskName) {
         final int x = 50;
-        final int y = nextTaskY;
+        final int y = baseY;
         StackPane stackPane = new StackPane();
         rootTask = stackPane;
         stackPane.setId("new-task-bar-" + barCount.get());
@@ -66,7 +66,7 @@ public class TaskAppender implements TaskHandler{
         stackPane.setLayoutY(y);
 
         taskButtons.handlerAfterCreateTask(
-            rect, label, this, 1
+            rect, label, this, baseY,1
         );
 
         return stackPane;
@@ -75,11 +75,6 @@ public class TaskAppender implements TaskHandler{
     @Override
     public void drawBar(StackPane taskBar) {
         taskPane.getChildren().addAll(taskBar);
-    }
-
-    @Override
-    public int nextTaskY() {
-        return this.nextTaskY;
     }
 
     @Override
