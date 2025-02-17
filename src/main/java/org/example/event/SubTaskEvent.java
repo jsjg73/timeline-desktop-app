@@ -49,7 +49,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         this.stackPane = subtaskPane;
 
         this.drawBar(subtaskPane);
-        baseX += width + 10;
+        updateBaseX(baseX + width + 10);
 
         if (subtaskBarCount.get() == 0) {
             updateBaseY();
@@ -59,6 +59,12 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
 
     public void updateBaseY() {
         parent.updateBaseY();
+    }
+
+    @Override
+    public void updateBaseX(int x) {
+        baseX = x;
+        parent.updateBaseX(x);
     }
 
     @Override

@@ -119,9 +119,20 @@ public class TaskLayoutTest {
         assertLayoutX("#new-task-bar-0-1-0-0-rect", 220);
     }
 
+    @Test
+    void 하위_업무_완료_후_상위_업무_돌아왔을_때_x_위치(FxRobot robot) {
+        startNewTask(robot);
+            startNewSubTask(robot);
+                completeNewSubtask(robot);
+            robot.clickOn(completeButton);
+            startNewSubTask(robot);
+
+        assertLayoutX("#new-task-bar-0-1-rect", 190);
+    }
+
     // 다음 할 일;
         // start 버튼  제거;
-        // 하위 업무 완료 후 상위 업무 돌아왔을 때 x 위치 반영.
+    
     private void assertLayoutX(String query, int x) {
         Rectangle rect = lookup(query).query();
         assertThat(rect.getX()).isEqualTo(x);

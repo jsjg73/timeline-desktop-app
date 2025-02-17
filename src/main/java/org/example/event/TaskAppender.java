@@ -45,6 +45,9 @@ public class TaskAppender implements TaskHandler{
         baseY += 50;
     }
 
+    @Override
+    public void updateBaseX(int x) {    }
+
     // 작업 막대와 라벨을 겹쳐서 생성
     private StackPane createTaskBar(String taskName) {
         final int x = 50;
