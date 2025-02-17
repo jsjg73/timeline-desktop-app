@@ -20,6 +20,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     private final int depth;
     private StackPane stackPane;
     private int xPadding;
+    private final int width = 70;
 
     public SubTaskEvent(
             final TaskButtons taskButtons,
@@ -43,9 +44,11 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         taskButtons.disableSubtaskButton();
     }
 
+    private int currentY() {
+        return baseY + depth * 50;
+    }
     public void addSubtask(String subtaskName) {
-        final int width = 70;
-        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName, baseX, baseY + depth * 50, width, 30);
+        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName);
         this.stackPane = subtaskPane;
 
         this.drawBar(subtaskPane);
@@ -77,17 +80,17 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         return stackPane.getId();
     }
 
-    private StackPane createSubTaskBarWithLabel(String taskName, int x, int y, int width, int height) {
-        Rectangle rect = createSubtaskBar(x, y, width, height, Color.BLUE);
+    private StackPane createSubTaskBarWithLabel(String taskName) {
+        Rectangle rect = createSubtaskBar();
         Label label = createSubtaskLabel(taskName);
 
         taskButtons.handlerAfterCreateSubtask(rect, label, this,
-                x + 30, baseY, depth + 1);
+                baseX + 30, baseY, depth + 1);
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);
-        stackPane.setLayoutX(x);
-        stackPane.setLayoutY(y);
+        stackPane.setLayoutX(baseX);
+        stackPane.setLayoutY(currentY());
 
         stackPane.setId(parentTaskBarId() + "-" + subtaskBarCount.get());
         return stackPane;
@@ -97,9 +100,10 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         return parent.taskBarId();
     }
 
-    private Rectangle createSubtaskBar(int x, int y, int width, int height, Color color) {
-        Rectangle rect = new Rectangle(x, y, width, height);
-        rect.setFill(color);
+    private Rectangle createSubtaskBar() {
+        final int height = 30;
+        Rectangle rect = new Rectangle(baseX, currentY(), width, height);
+        rect.setFill(Color.BLUE);
         rect.setStroke(Color.BLACK);
         rect.setId(parentTaskBarId() + "-" + subtaskBarCount.get() + "-rect");
         return rect;
