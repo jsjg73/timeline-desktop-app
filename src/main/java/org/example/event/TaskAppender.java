@@ -17,13 +17,11 @@ public class TaskAppender implements TaskHandler{
     private final Pane taskPane;
     private final TaskButtons taskButtons;
     private int baseY;
-    private int nextY;
-    private StackPane rootTask;
 
     public TaskAppender(TaskButtons taskButtons, Pane taskPane) {
         this.taskPane = taskPane;
         this.taskButtons = taskButtons;
-        this.baseY = nextY = 50;
+        this.baseY = 50;
     }
 
     public void drawTaskBar(String taskName) {
@@ -33,7 +31,6 @@ public class TaskAppender implements TaskHandler{
         // 작업 패널에 추가
         this.drawBar(taskBar);
 
-//        nextTaskY += 50; // 다음 부모 작업 위치 갱신
         updateBaseY();
         barCount.incrementAndGet();
 
@@ -53,27 +50,29 @@ public class TaskAppender implements TaskHandler{
         final int x = 50;
         final int y = baseY;
         StackPane stackPane = new StackPane();
-        rootTask = stackPane;
-        stackPane.setId("new-task-bar-" + barCount.get());
+        stackPane.setId(taskId());
 
         Rectangle rect =
-            TaskRectangle.create(
-                rootTask.getId(),
+            TaskRectangle.create(taskId(),
                 x, y, 70, 30,
                 Color.BLUE
             );
-        Label label = TaskLabel.create(rootTask.getId(), taskName);
+        Label label = TaskLabel.create(taskId(), taskName);
 
         stackPane.getChildren().addAll(rect, label);
         stackPane.setLayoutX(x);
         stackPane.setLayoutY(y);
 
         taskButtons.handlerAfterCreateTask(
-                rootTask.getId(),
+                taskId(),
             rect, label, this, baseY,1
         );
 
         return stackPane;
+    }
+
+    private String taskId() {
+        return "new-task-bar-" + barCount.get();
     }
 
     @Override
