@@ -56,13 +56,19 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         updateBaseX(baseX + width + 10);
 
         if (subtaskBarCount.get() == 0) {
-            updateBaseY();
+            updateRootBaseY();
         }
+
         subtaskBarCount.incrementAndGet();
     }
 
-    public void updateBaseY() {
-        parent.updateBaseY();
+    @Override
+    public RootTask findRoot() {
+        return parent.findRoot();
+    }
+
+    private void updateRootBaseY() {
+        findRoot().updateBaseY();
     }
 
     @Override

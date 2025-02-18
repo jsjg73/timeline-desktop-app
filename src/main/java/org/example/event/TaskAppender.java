@@ -11,7 +11,7 @@ import org.example.component.task.TaskRectangle;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TaskAppender implements TaskHandler{
+public class TaskAppender implements TaskHandler, RootTask{
 
     private final AtomicInteger barCount = new AtomicInteger();
     private final Pane taskPane;
@@ -40,6 +40,11 @@ public class TaskAppender implements TaskHandler{
 
     public void updateBaseY() {
         baseY += 50;
+    }
+
+    @Override
+    public RootTask findRoot() {
+        return this;
     }
 
     @Override
