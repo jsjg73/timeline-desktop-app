@@ -5,5 +5,4 @@ import javafx.scene.layout.StackPane;
 public interface TaskHandler {
     RootTaskAppender findRoot();
     void updateBaseX(int x);
-    void drawBar(StackPane taskBar);
 }

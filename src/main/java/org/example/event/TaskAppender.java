@@ -28,7 +28,7 @@ public class TaskAppender implements TaskHandler, RootTaskAppender {
         StackPane taskBar = createTaskBar(taskName);
 
         // 작업 패널에 추가
-        this.drawBar(taskBar);
+        this.appendNewTask(taskBar);
 
         updateBaseY();
         barCount.incrementAndGet();
@@ -73,7 +73,7 @@ public class TaskAppender implements TaskHandler, RootTaskAppender {
     }
 
     @Override
-    public void drawBar(StackPane taskBar) {
+    public void appendNewTask(StackPane taskBar) {
         taskPane.getChildren().addAll(taskBar);
     }
 

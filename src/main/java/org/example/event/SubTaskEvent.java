@@ -50,9 +50,9 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     }
 
     public void addSubtask(String subtaskName) {
-        StackPane subtaskPane = createSubTaskBarWithLabel(subtaskName);
+        StackPane newTask = createSubTaskBarWithLabel(subtaskName);
 
-        this.drawBar(subtaskPane);
+        drawBar(newTask);
         updateBaseX(baseX + width + 10);
 
         if (subtaskBarCount.get() == 0) {
@@ -77,9 +77,8 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         parent.updateBaseX(x);
     }
 
-    @Override
-    public void drawBar(StackPane taskBar) {
-        parent.drawBar(taskBar);
+    public void drawBar(StackPane newTask) {
+        findRoot().appendNewTask(newTask);
     }
 
     private StackPane createSubTaskBarWithLabel(String taskName) {
