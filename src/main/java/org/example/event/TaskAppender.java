@@ -63,10 +63,7 @@ public class TaskAppender implements TaskHandler{
         stackPane.setLayoutX(x);
         stackPane.setLayoutY(y);
 
-        taskButtons.handlerAfterCreateTask(
-                taskId(),
-            rect, label, this, baseY,1
-        );
+        taskButtons.handlerAfterCreateTask(taskId(), stackPane, this, baseY, 1);
 
         return stackPane;
     }

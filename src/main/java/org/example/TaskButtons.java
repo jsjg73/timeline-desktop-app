@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -69,17 +70,16 @@ public class TaskButtons {
     }
 
     public void handlerAfterCreateTask(String parentId,
-                                       Rectangle rect,
-                                       Label label,
+                                       StackPane stackPane,
                                        TaskHandler parent,
                                        int baseY,
                                        int indent) {
 
         this.globalStart.setOnAction(
-            new GlobalStartButtonEventHandler(rect, label, this)
+            new GlobalStartButtonEventHandler(stackPane, this)
         );
 
-        completeEventHandlers.add(new GlobalStopButtonEventHandler(rect, label, this));
+        completeEventHandlers.add(new GlobalStopButtonEventHandler(stackPane, this));
         this.globalComplete.setOnAction( e -> completeEventHandlers.getLast().handle(e));
 
         subtaskEventHandlers.add(new SubTaskEvent(parentId, this, parent, 50 + 30,  baseY, indent));
