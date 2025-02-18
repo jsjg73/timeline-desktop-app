@@ -50,18 +50,14 @@ public class TaskAppender implements TaskHandler{
         final int x = 50;
         final int y = baseY;
         StackPane stackPane = new StackPane();
-        stackPane.setId(taskId());
 
-        Rectangle rect =
-            TaskRectangle.create(taskId(),
-                x, y, 70, 30,
-                Color.BLUE
-            );
+        Rectangle rect = TaskRectangle.create(taskId(), x, y);
         Label label = TaskLabel.create(taskId(), taskName);
 
         stackPane.getChildren().addAll(rect, label);
         stackPane.setLayoutX(x);
         stackPane.setLayoutY(y);
+        stackPane.setId(taskId());
 
         taskButtons.handlerAfterCreateTask(taskId(), stackPane, this, baseY, 1);
 
