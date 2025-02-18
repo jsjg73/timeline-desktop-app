@@ -63,7 +63,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     }
 
     @Override
-    public RootTask findRoot() {
+    public RootTaskAppender findRoot() {
         return parent.findRoot();
     }
 

@@ -1,5 +1,5 @@
 package org.example.event;
 
-public interface RootTask {
+public interface RootTaskAppender {
     void updateBaseY();
 }

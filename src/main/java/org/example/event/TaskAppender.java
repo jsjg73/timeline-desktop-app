@@ -3,7 +3,6 @@ package org.example.event;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.example.TaskButtons;
 import org.example.component.task.TaskLabel;
@@ -11,7 +10,7 @@ import org.example.component.task.TaskRectangle;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TaskAppender implements TaskHandler, RootTask{
+public class TaskAppender implements TaskHandler, RootTaskAppender {
 
     private final AtomicInteger barCount = new AtomicInteger();
     private final Pane taskPane;
@@ -43,7 +42,7 @@ public class TaskAppender implements TaskHandler, RootTask{
     }
 
     @Override
-    public RootTask findRoot() {
+    public RootTaskAppender findRoot() {
         return this;
     }
 
