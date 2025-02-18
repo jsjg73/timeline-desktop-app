@@ -69,6 +69,7 @@ public class TaskAppender implements TaskHandler{
         stackPane.setLayoutY(y);
 
         taskButtons.handlerAfterCreateTask(
+                rootTask.getId(),
             rect, label, this, baseY,1
         );
 
@@ -80,8 +81,4 @@ public class TaskAppender implements TaskHandler{
         taskPane.getChildren().addAll(taskBar);
     }
 
-    @Override
-    public String taskBarId() {
-        return rootTask.getId();
-    }
 }

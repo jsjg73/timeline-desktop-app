@@ -68,7 +68,8 @@ public class TaskButtons {
         );
     }
 
-    public void handlerAfterCreateTask(Rectangle rect,
+    public void handlerAfterCreateTask(String parentId,
+                                       Rectangle rect,
                                        Label label,
                                        TaskHandler parent,
                                        int baseY,
@@ -81,11 +82,12 @@ public class TaskButtons {
         completeEventHandlers.add(new GlobalStopButtonEventHandler(rect, label, this));
         this.globalComplete.setOnAction( e -> completeEventHandlers.getLast().handle(e));
 
-        subtaskEventHandlers.add(new SubTaskEvent(this, parent, 50 + 30,  baseY, indent));
+        subtaskEventHandlers.add(new SubTaskEvent(parentId, this, parent, 50 + 30,  baseY, indent));
         this.globalSubtask.setOnAction(e -> subtaskEventHandlers.getLast().handle(e));
     }
 
     public void handlerAfterCreateSubtask(
+            String parentId,
             Rectangle rect, Label label,
             TaskHandler parent,
             int baseX,
@@ -116,7 +118,7 @@ public class TaskButtons {
 
         completeEventHandlers.add(completeEventHandler);
 
-        subtaskEventHandlers.add(new SubTaskEvent(this, parent, baseX, baseY, indent));
+        subtaskEventHandlers.add(new SubTaskEvent(parentId, this, parent, baseX, baseY, indent));
     }
 
     public void enableSubtaskButton() {

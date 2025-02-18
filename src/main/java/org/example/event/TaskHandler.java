@@ -6,5 +6,4 @@ public interface TaskHandler {
     void updateBaseY();
     void updateBaseX(int x);
     void drawBar(StackPane taskBar);
-    String taskBarId();
 }
