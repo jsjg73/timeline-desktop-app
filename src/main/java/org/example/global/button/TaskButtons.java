@@ -1,4 +1,4 @@
-package org.example;
+package org.example.global.button;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,19 +16,19 @@ import org.example.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskButtons {
-    public static final String taskButtonId= "addTaskButton";
-    public static final String startButtonId= "globalStartButton";
+class TaskButtons {
+    public static final String taskButtonId = "addTaskButton";
+    public static final String startButtonId = "globalStartButton";
     public static final String completeButtonId = "globalCompleteButton";
-    public static final String subtaskButtonId= "globalSubtaskButton";
+    public static final String subtaskButtonId = "globalSubtaskButton";
 
-    private final Button addTaskButton = new Button("Add Task");
-    private final Button globalStart = new Button("Start");
-    private final Button globalComplete = new Button("Complete");
-    private final Button globalSubtask = new Button("Subtask");
+    protected final Button addTaskButton = new Button("Add Task");
+    protected final Button globalStart = new Button("Start");
+    protected final Button globalComplete = new Button("Complete");
+    protected final Button globalSubtask = new Button("Subtask");
 
-    private final List<EventHandler<ActionEvent>> completeEventHandlers = new ArrayList<>();
-    private final List<EventHandler<ActionEvent>> subtaskEventHandlers = new ArrayList<>();
+    protected final List<EventHandler<ActionEvent>> completeEventHandlers = new ArrayList<>();
+    protected final List<EventHandler<ActionEvent>> subtaskEventHandlers = new ArrayList<>();
 
     public TaskButtons() {
         addTaskButton.setId(taskButtonId);
@@ -46,14 +46,13 @@ public class TaskButtons {
     public void handleTaskButton(TextField taskNameField,
                                  Pane taskPane) {
         addTaskButton.setOnAction(
-            new AddTaskEventHandler(
-                taskNameField,
-                new TaskAppender(
-                    new TaskBarCreator(),
-                    this,
-                    taskPane
+                new AddTaskEventHandler(
+                        taskNameField,
+                        new TaskAppender(
+                                new TaskBarCreator(),
+                                taskPane
+                        )
                 )
-            )
         );
     }
 
@@ -81,13 +80,13 @@ public class TaskButtons {
                                        int indent) {
 
         this.globalStart.setOnAction(
-            new GlobalStartButtonEventHandler(stackPane, this)
+                new GlobalStartButtonEventHandler(stackPane)
         );
 
-        completeEventHandlers.add(new GlobalStopButtonEventHandler(stackPane, this));
-        this.globalComplete.setOnAction( e -> completeEventHandlers.getLast().handle(e));
+        completeEventHandlers.add(new GlobalStopButtonEventHandler(stackPane));
+        this.globalComplete.setOnAction(e -> completeEventHandlers.getLast().handle(e));
 
-        subtaskEventHandlers.add(new SubTaskEvent(parentId, this, parent, 50 + 30,  baseY, indent));
+        subtaskEventHandlers.add(new SubTaskEvent(parentId, parent, 50 + 30, baseY, indent));
         this.globalSubtask.setOnAction(e -> subtaskEventHandlers.getLast().handle(e));
     }
 
@@ -101,14 +100,14 @@ public class TaskButtons {
     ) {
 
         globalStart.setOnAction(
-            e -> {
-                rect.setFill(Color.YELLOW);
-                label.setTextFill(Color.BLACK);
+                e -> {
+                    rect.setFill(Color.YELLOW);
+                    label.setTextFill(Color.BLACK);
 
-                disableStartButton();
-                enableCompleteButton();
-                enableSubtaskButton();
-            }
+                    disableStartButton();
+                    enableCompleteButton();
+                    enableSubtaskButton();
+                }
         );
 
         EventHandler<ActionEvent> completeEventHandler = e -> {
@@ -123,7 +122,7 @@ public class TaskButtons {
 
         completeEventHandlers.add(completeEventHandler);
 
-        subtaskEventHandlers.add(new SubTaskEvent(parentId, this, parent, baseX, baseY, indent));
+        subtaskEventHandlers.add(new SubTaskEvent(parentId, parent, baseX, baseY, indent));
     }
 
     public void enableSubtaskButton() {

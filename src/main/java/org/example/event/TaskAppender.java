@@ -2,8 +2,8 @@ package org.example.event;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import org.example.TaskButtons;
 import org.example.component.task.TaskBarCreator;
+import org.example.global.button.ButtonLocator;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,20 +12,18 @@ public class TaskAppender implements TaskHandler, RootTaskAppender {
     private final TaskBarCreator taskBarCreator;
     private final AtomicInteger barCount = new AtomicInteger();
     private final Pane taskPane;
-    private final TaskButtons taskButtons;
     private int baseY;
 
-    public TaskAppender(TaskBarCreator taskBarCreator, TaskButtons taskButtons, Pane taskPane) {
+    public TaskAppender(TaskBarCreator taskBarCreator, Pane taskPane) {
         this.taskBarCreator = taskBarCreator;
         this.taskPane = taskPane;
-        this.taskButtons = taskButtons;
         this.baseY = 50;
     }
 
     public void drawTaskBar(String taskName) {
         // 작업 막대 생성
         StackPane taskBar = taskBarCreator.createTaskBar(taskId(), taskName, baseY);
-        taskButtons.handlerAfterCreateTask(taskId(), taskBar, this, baseY, 1);
+        ButtonLocator.handlerAfterCreateTask(taskId(), taskBar, this, baseY, 1);
 
         // 작업 패널에 추가
         this.appendNewTask(taskBar);
@@ -33,8 +31,8 @@ public class TaskAppender implements TaskHandler, RootTaskAppender {
         updateBaseY();
         barCount.incrementAndGet();
 
-        taskButtons.disableTaskButton();
-        taskButtons.enableStartButton();
+        ButtonLocator.disableTaskButton();
+        ButtonLocator.enableStartButton();
     }
 
     public void updateBaseY() {

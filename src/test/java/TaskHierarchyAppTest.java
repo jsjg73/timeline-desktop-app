@@ -2,8 +2,8 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.example.TaskButtons;
 import org.example.TaskHierarchyScene;
+import org.example.global.button.TestButtonLocator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxAssert;
@@ -29,10 +29,10 @@ class TaskHierarchyAppTest {
         stage.show();
     }
 
-    final String buttonId = "#" + TaskButtons.taskButtonId;
-    final String startButton = "#" + TaskButtons.startButtonId;
-    final String completeButton = "#" + TaskButtons.completeButtonId;
-    final String subtaskButton = "#" + TaskButtons.subtaskButtonId;
+    final String buttonId = "#" + TestButtonLocator.taskButtonId;
+    final String startButton = "#" + TestButtonLocator.startButtonId;
+    final String completeButton = "#" + TestButtonLocator.completeButtonId;
+    final String subtaskButton = "#" + TestButtonLocator.subtaskButtonId;
 
     @Test
     void first_test() {

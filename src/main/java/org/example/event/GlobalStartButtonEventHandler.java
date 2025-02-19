@@ -6,19 +6,16 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import org.example.TaskButtons;
+import org.example.global.button.ButtonLocator;
 
 public class GlobalStartButtonEventHandler implements EventHandler<ActionEvent> {
 
     private final Rectangle taskBarRectangle;
     private final Label taskBarLabel;
-    private final TaskButtons taskButtons;
 
-    public GlobalStartButtonEventHandler(StackPane stackPane,
-                                         final TaskButtons taskButtons) {
+    public GlobalStartButtonEventHandler(StackPane stackPane) {
         this.taskBarRectangle = (Rectangle) stackPane.getChildren().get(0);
         this.taskBarLabel = (Label) stackPane.getChildren().get(1);
-        this.taskButtons = taskButtons;
     }
 
     @Override
@@ -26,8 +23,8 @@ public class GlobalStartButtonEventHandler implements EventHandler<ActionEvent> 
         taskBarRectangle.setFill(Color.YELLOW);
         taskBarLabel.setTextFill(Color.BLACK);
 
-        taskButtons.disableStartButton();
-        taskButtons.enableCompleteButton();
-        taskButtons.enableSubtaskButton();
+        ButtonLocator.disableStartButton();
+        ButtonLocator.enableCompleteButton();
+        ButtonLocator.enableSubtaskButton();
     }
 }

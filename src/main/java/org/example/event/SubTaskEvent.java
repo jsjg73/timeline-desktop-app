@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import org.example.TaskButtons;
+import org.example.global.button.ButtonLocator;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -14,7 +14,6 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
 
     private final String parentId;
     private final AtomicInteger subtaskBarCount = new AtomicInteger();
-    private final TaskButtons taskButtons;
     private final TaskHandler parent;
     private int baseX;
     private final int baseY;
@@ -23,13 +22,11 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
 
     public SubTaskEvent(
             final String parentId,
-            final TaskButtons taskButtons,
             final TaskHandler parent,
             int baseX,
             int baseY,
             int depth) {
         this.parentId = parentId;
-        this.taskButtons = taskButtons;
         this.parent = parent;
         this.baseX = baseX;
         this.baseY = baseY;
@@ -40,9 +37,9 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     public void handle(ActionEvent actionEvent) {
         addSubtask("새 하위 업무");
 
-        taskButtons.enableStartButton();
-        taskButtons.disableCompleteButton();
-        taskButtons.disableSubtaskButton();
+        ButtonLocator.enableStartButton();
+        ButtonLocator.disableCompleteButton();
+        ButtonLocator.disableSubtaskButton();
     }
 
     private int currentY() {
@@ -85,7 +82,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         Rectangle rect = createSubtaskBar();
         Label label = createSubtaskLabel(taskName);
 
-        taskButtons.handlerAfterCreateSubtask(
+        ButtonLocator.handlerAfterCreateSubtask(
                 subtaskId(),
                 rect, label, this,
                 baseX + 30, baseY, depth + 1);

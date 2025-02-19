@@ -5,15 +5,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.example.global.button.ButtonLocator;
 
 public class TaskHierarchyScene {
 
-    private final Pane taskPane = new Pane();// 작업이 표시될 패널
-    private final TaskButtons buttons = createButtons();
-
-    private TaskButtons createButtons(){
-        return new TaskButtons();
+    public TaskHierarchyScene() {
+        ButtonLocator.init();
     }
+
+    private final Pane taskPane = new Pane();// 작업이 표시될 패널
 
     public Scene draw() {
         VBox root = new VBox(10);
@@ -28,11 +28,11 @@ public class TaskHierarchyScene {
 
         // 기본 레이아웃 설정
         root.getChildren().addAll(taskNameField, parentTaskField);
-        buttons.drawnOn(root);
+        ButtonLocator.drawnOn(root);
         root.getChildren().add(taskPane);
 
         // 작업 추가 버튼 클릭 이벤트
-        buttons.handleTaskButton(taskNameField, taskPane);
+        ButtonLocator.handleTaskButton(taskNameField, taskPane);
 
         return new Scene(root, 800, 600);
     }

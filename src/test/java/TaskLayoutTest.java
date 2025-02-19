@@ -1,7 +1,7 @@
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.example.TaskButtons;
 import org.example.TaskHierarchyScene;
+import org.example.global.button.TestButtonLocator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxAssert;
@@ -23,10 +23,10 @@ public class TaskLayoutTest {
         stage.show();
     }
 
-    final String buttonId = "#" + TaskButtons.taskButtonId;
-    final String startButton = "#" + TaskButtons.startButtonId;
-    final String completeButton = "#" + TaskButtons.completeButtonId;
-    final String subtaskButton = "#" + TaskButtons.subtaskButtonId;
+    final String buttonId = "#" + TestButtonLocator.taskButtonId;
+    final String startButton = "#" + TestButtonLocator.startButtonId;
+    final String completeButton = "#" + TestButtonLocator.completeButtonId;
+    final String subtaskButton = "#" + TestButtonLocator.subtaskButtonId;
 
     @Test
     void 깊이가_같은_subtask는_가로로_추가됨(FxRobot robot) {
@@ -132,6 +132,7 @@ public class TaskLayoutTest {
 
     // 다음 할 일;
         // start 버튼  제거;
+        // complete 할 때도 블럭 생성.
     
     private void assertLayoutX(String query, int x) {
         Rectangle rect = lookup(query).query();
