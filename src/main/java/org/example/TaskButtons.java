@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.example.component.task.TaskBarCreator;
 import org.example.event.*;
 
 import java.util.ArrayList;
@@ -47,7 +48,11 @@ public class TaskButtons {
         addTaskButton.setOnAction(
             new AddTaskEventHandler(
                 taskNameField,
-                new TaskAppender(this, taskPane)
+                new TaskAppender(
+                    new TaskBarCreator(),
+                    this,
+                    taskPane
+                )
             )
         );
     }
