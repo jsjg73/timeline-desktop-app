@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 public class TaskHierarchyScene {
 
     private final Pane taskPane = new Pane();// 작업이 표시될 패널
-    private final TaskButtons buttons = createButtons();// 작업이 표시될 패널
+    private final TaskButtons buttons = createButtons();
 
     private TaskButtons createButtons(){
         return new TaskButtons();
@@ -28,7 +28,7 @@ public class TaskHierarchyScene {
 
         // 기본 레이아웃 설정
         root.getChildren().addAll(taskNameField, parentTaskField);
-        buttons.draw(root);
+        buttons.drawnOn(root);
         root.getChildren().add(taskPane);
 
         // 작업 추가 버튼 클릭 이벤트

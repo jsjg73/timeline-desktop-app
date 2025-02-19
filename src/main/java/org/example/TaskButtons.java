@@ -65,7 +65,7 @@ public class TaskButtons {
         this.globalStart.setDisable(false);
     }
 
-    public void draw(VBox root) {
+    public void drawnOn(VBox root) {
         root.getChildren().addAll(
                 addTaskButton,
                 globalStart,
