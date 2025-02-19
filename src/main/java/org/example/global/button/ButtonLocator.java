@@ -28,7 +28,7 @@ public class ButtonLocator {
         taskButtons.enableStartButton();
     }
 
-    public static void drawnOn(VBox root) {
+    public static void drawGlobalButtonsOn(VBox root) {
         taskButtons.drawnOn(root);
     }
 
