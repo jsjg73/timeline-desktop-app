@@ -2,8 +2,9 @@ package org.example.component.subtask;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.example.component.task.TaskLabel;
+import org.example.component.task.TaskRectangle;
 import org.example.event.command.CreateSubTaskCommand;
 
 public class SubtaskBarCreator {
@@ -12,10 +13,8 @@ public class SubtaskBarCreator {
 
     public static StackPane createSubTaskBarWithLabel(CreateSubTaskCommand c) {
 
-        Rectangle rect = createSubtaskBar(
-            c.subtaskId(), c.baseX(), currentY(c.baseY(), c.depth()), c.width()
-        );
-        Label label = createSubtaskLabel(c.subtaskId(), PLACE_HOLDER);
+        Rectangle rect = TaskRectangle.create(c.subtaskId(), c.baseX(), currentY(c.baseY(), c.depth()));
+        Label label = TaskLabel.create(c.subtaskId(), PLACE_HOLDER);
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);
@@ -28,21 +27,5 @@ public class SubtaskBarCreator {
 
     private static int currentY(int y, int depth) {
         return y + depth * 50;
-    }
-
-    private static Rectangle createSubtaskBar(String id, int x, int y, int width) {
-        final int height = 30;
-        Rectangle rect = new Rectangle(x, y, width, height);
-        rect.setFill(Color.BLUE);
-        rect.setStroke(Color.BLACK);
-        rect.setId(id + "-rect");
-        return rect;
-    }
-
-    private static Label createSubtaskLabel(String id, String taskName) {
-        Label label = new Label(taskName);
-        label.setTextFill(Color.WHITE);
-        label.setId(id + "-label");
-        return label;
     }
 }
