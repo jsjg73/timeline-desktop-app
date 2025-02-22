@@ -40,14 +40,14 @@ public class ButtonLocator {
 
     public static void handlerAfterCreateSubtask(
             String parentId,
-            Rectangle rect, Label label,
+            StackPane stackPane,
             TaskHandler parent,
             int baseX,
             int baseY,
             int indent
     ) {
         taskButtons.handlerAfterCreateSubtask(
-                parentId, rect, label, parent, baseX, baseY, indent
+                parentId, stackPane, parent, baseX, baseY, indent
         );
     }
 

@@ -91,12 +91,14 @@ class TaskButtons {
 
     public void handlerAfterCreateSubtask(
             String parentId,
-            Rectangle rect, Label label,
+            StackPane stackPane,
             TaskHandler parent,
             int baseX,
             int baseY,
             int indent
     ) {
+        final Rectangle rect = (Rectangle) stackPane.getChildren().get(0);
+        final Label label = (Label) stackPane.getChildren().get(1);
 
         globalStart.setOnAction(
                 e -> {

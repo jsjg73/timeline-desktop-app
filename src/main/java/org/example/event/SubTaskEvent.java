@@ -2,11 +2,10 @@ package org.example.event;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import org.example.TaskHierarchyScene;
+import org.example.component.subtask.SubtaskBarCreator;
+import org.example.event.command.CreateSubTaskCommand;
 import org.example.global.button.ButtonLocator;
 import org.example.global.button.RootTaskLocator;
 
@@ -37,21 +36,20 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
 
     @Override
     public void handle(ActionEvent actionEvent) {
-        addSubtask("새 하위 업무");
+        addSubtask();
 
         ButtonLocator.enableStartButton();
         ButtonLocator.disableCompleteButton();
         ButtonLocator.disableSubtaskButton();
     }
 
-    private int currentY() {
-        return baseY + depth * 50;
-    }
+    private void addSubtask() {
+        StackPane newSubtask =
+            SubtaskBarCreator.createSubTaskBarWithLabel(buildCommand());
 
-    public void addSubtask(String subtaskName) {
-        StackPane newTask = createSubTaskBarWithLabel(subtaskName);
+        ButtonLocator.handlerAfterCreateSubtask(subtaskId(), newSubtask, this, baseX + 30, baseY, depth + 1);
 
-        appendNewTask(newTask);
+        appendNewTask(newSubtask);
         updateBaseX(baseX + width + 10);
 
         if (subtaskBarCount.get() == 0) {
@@ -59,6 +57,14 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         }
 
         subtaskBarCount.incrementAndGet();
+    }
+
+    private CreateSubTaskCommand buildCommand() {
+        return new CreateSubTaskCommand(
+            subtaskId(),
+            baseX, baseY,
+            depth, width
+        );
     }
 
     @Override
@@ -71,41 +77,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         TaskHierarchyScene.taskPane.getChildren().addAll(newTask);
     }
 
-    private StackPane createSubTaskBarWithLabel(String taskName) {
-        Rectangle rect = createSubtaskBar();
-        Label label = createSubtaskLabel(taskName);
-
-        ButtonLocator.handlerAfterCreateSubtask(
-                subtaskId(),
-                rect, label, this,
-                baseX + 30, baseY, depth + 1);
-
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(rect, label);
-        stackPane.setLayoutX(baseX);
-        stackPane.setLayoutY(currentY());
-
-        stackPane.setId(subtaskId());
-        return stackPane;
-    }
-
     private String subtaskId() {
         return parentId + "-" + subtaskBarCount.get();
-    }
-
-    private Rectangle createSubtaskBar() {
-        final int height = 30;
-        Rectangle rect = new Rectangle(baseX, currentY(), width, height);
-        rect.setFill(Color.BLUE);
-        rect.setStroke(Color.BLACK);
-        rect.setId(subtaskId() + "-rect");
-        return rect;
-    }
-
-    private Label createSubtaskLabel(String taskName) {
-        Label label = new Label(taskName);
-        label.setTextFill(Color.WHITE);
-        label.setId(subtaskId() + "-label");
-        return label;
     }
 }
