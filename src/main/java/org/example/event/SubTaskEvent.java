@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.example.TaskHierarchyScene;
 import org.example.global.button.ButtonLocator;
+import org.example.global.button.RootTaskLocator;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -54,19 +55,10 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         updateBaseX(baseX + width + 10);
 
         if (subtaskBarCount.get() == 0) {
-            updateRootBaseY();
+            RootTaskLocator.updateBaseY();
         }
 
         subtaskBarCount.incrementAndGet();
-    }
-
-    @Override
-    public RootTaskAppender findRoot() {
-        return parent.findRoot();
-    }
-
-    private void updateRootBaseY() {
-        findRoot().updateBaseY();
     }
 
     @Override

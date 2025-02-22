@@ -4,6 +4,7 @@ import javafx.scene.layout.StackPane;
 import org.example.TaskHierarchyScene;
 import org.example.component.task.TaskBarCreator;
 import org.example.global.button.ButtonLocator;
+import org.example.global.button.RootTaskLocator;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -16,6 +17,7 @@ public class TaskAppender implements TaskHandler, RootTaskAppender {
     public TaskAppender(TaskBarCreator taskBarCreator) {
         this.taskBarCreator = taskBarCreator;
         this.baseY = 50;
+        RootTaskLocator.set(this);
     }
 
     public void drawTaskBar(String taskName) {
@@ -35,11 +37,6 @@ public class TaskAppender implements TaskHandler, RootTaskAppender {
 
     public void updateBaseY() {
         baseY += 50;
-    }
-
-    @Override
-    public RootTaskAppender findRoot() {
-        return this;
     }
 
     @Override

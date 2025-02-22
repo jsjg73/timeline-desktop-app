@@ -43,8 +43,8 @@ class TaskButtons {
         disableSubtaskButton();
     }
 
-    public void handleTaskButton(TextField taskNameField,
-                                 Pane taskPane) {
+    public void handleTaskButton(TextField taskNameField) {
+
         addTaskButton.setOnAction(
             new AddTaskEventHandler(
                 taskNameField,

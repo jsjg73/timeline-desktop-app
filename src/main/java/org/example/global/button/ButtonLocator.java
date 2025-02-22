@@ -2,7 +2,6 @@ package org.example.global.button;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -15,9 +14,8 @@ public class ButtonLocator {
         taskButtons = new TaskButtons();
     }
 
-    public static void handleTaskButton(TextField taskNameField,
-                                        Pane taskPane) {
-        taskButtons.handleTaskButton(taskNameField, taskPane);
+    public static void handleTaskButton(TextField taskNameField) {
+        taskButtons.handleTaskButton(taskNameField);
     }
 
     public static void disableTaskButton() {

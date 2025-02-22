@@ -33,7 +33,7 @@ public class TaskHierarchyScene {
         root.getChildren().add(taskPane);
 
         // 작업 추가 버튼 클릭 이벤트
-        ButtonLocator.handleTaskButton(taskNameField, taskPane);
+        ButtonLocator.handleTaskButton(taskNameField);
 
         return new Scene(root, 800, 600);
     }
