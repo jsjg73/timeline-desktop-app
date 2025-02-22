@@ -1,7 +1,7 @@
 package org.example.event;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import org.example.TaskHierarchyScene;
 import org.example.component.task.TaskBarCreator;
 import org.example.global.button.ButtonLocator;
 
@@ -11,12 +11,10 @@ public class TaskAppender implements TaskHandler, RootTaskAppender {
 
     private final TaskBarCreator taskBarCreator;
     private final AtomicInteger barCount = new AtomicInteger();
-    private final Pane taskPane;
     private int baseY;
 
-    public TaskAppender(TaskBarCreator taskBarCreator, Pane taskPane) {
+    public TaskAppender(TaskBarCreator taskBarCreator) {
         this.taskBarCreator = taskBarCreator;
-        this.taskPane = taskPane;
         this.baseY = 50;
     }
 
@@ -51,9 +49,8 @@ public class TaskAppender implements TaskHandler, RootTaskAppender {
         return "new-task-bar-" + barCount.get();
     }
 
-    @Override
     public void appendNewTask(StackPane taskBar) {
-        taskPane.getChildren().addAll(taskBar);
+        TaskHierarchyScene.taskPane.getChildren().addAll(taskBar);
     }
 
 }

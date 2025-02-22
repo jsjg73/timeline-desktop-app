@@ -46,13 +46,12 @@ class TaskButtons {
     public void handleTaskButton(TextField taskNameField,
                                  Pane taskPane) {
         addTaskButton.setOnAction(
-                new AddTaskEventHandler(
-                        taskNameField,
-                        new TaskAppender(
-                                new TaskBarCreator(),
-                                taskPane
-                        )
+            new AddTaskEventHandler(
+                taskNameField,
+                new TaskAppender(
+                    new TaskBarCreator()
                 )
+            )
         );
     }
 

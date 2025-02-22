@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.example.TaskHierarchyScene;
 import org.example.global.button.ButtonLocator;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -49,7 +50,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     public void addSubtask(String subtaskName) {
         StackPane newTask = createSubTaskBarWithLabel(subtaskName);
 
-        drawBar(newTask);
+        appendNewTask(newTask);
         updateBaseX(baseX + width + 10);
 
         if (subtaskBarCount.get() == 0) {
@@ -74,8 +75,8 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         parent.updateBaseX(x);
     }
 
-    public void drawBar(StackPane newTask) {
-        findRoot().appendNewTask(newTask);
+    public void appendNewTask(StackPane newTask) {
+        TaskHierarchyScene.taskPane.getChildren().addAll(newTask);
     }
 
     private StackPane createSubTaskBarWithLabel(String taskName) {

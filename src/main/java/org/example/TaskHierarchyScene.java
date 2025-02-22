@@ -11,9 +11,10 @@ public class TaskHierarchyScene {
 
     public TaskHierarchyScene() {
         ButtonLocator.init();
+        taskPane = new Pane();
     }
 
-    private final Pane taskPane = new Pane();// 작업이 표시될 패널
+    public static Pane taskPane;// 작업이 표시될 패널
 
     public Scene draw() {
         VBox root = new VBox(10);
