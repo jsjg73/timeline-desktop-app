@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 import org.example.TaskHierarchyScene;
 import org.example.component.subtask.SubtaskBarCreator;
+import org.example.event.command.AfterCreateSubtaskCommand;
 import org.example.event.command.CreateSubTaskCommand;
 import org.example.global.button.ButtonLocator;
 import org.example.global.button.RootTaskLocator;
@@ -47,7 +48,8 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         StackPane newSubtask =
             SubtaskBarCreator.createSubTaskBarWithLabel(buildCommand());
 
-        ButtonLocator.handlerAfterCreateSubtask(subtaskId(), newSubtask, this, baseX + 30, baseY, depth + 1);
+        var afterCreateSubtaskCommand = new AfterCreateSubtaskCommand(subtaskId(), newSubtask, this, baseX + 30, baseY, depth + 1);
+        ButtonLocator.handlerAfterCreateSubtask(afterCreateSubtaskCommand);
 
         appendNewTask(newSubtask);
         updateBaseX(baseX + width + 10);

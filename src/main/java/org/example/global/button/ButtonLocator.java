@@ -6,6 +6,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import org.example.event.*;
+import org.example.event.command.AfterCreateSubtaskCommand;
 
 public class ButtonLocator {
     private static TaskButtons taskButtons;
@@ -38,17 +39,8 @@ public class ButtonLocator {
         taskButtons.handlerAfterCreateTask(parentId, stackPane, parent, baseY, indent);
     }
 
-    public static void handlerAfterCreateSubtask(
-            String parentId,
-            StackPane stackPane,
-            TaskHandler parent,
-            int baseX,
-            int baseY,
-            int indent
-    ) {
-        taskButtons.handlerAfterCreateSubtask(
-                parentId, stackPane, parent, baseX, baseY, indent
-        );
+    public static void handlerAfterCreateSubtask(AfterCreateSubtaskCommand command) {
+        taskButtons.handlerAfterCreateSubtask(command);
     }
 
     public static void enableSubtaskButton() {

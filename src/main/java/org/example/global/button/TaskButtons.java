@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.example.component.task.TaskBarCreator;
 import org.example.event.*;
+import org.example.event.command.AfterCreateSubtaskCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,13 +91,15 @@ class TaskButtons {
     }
 
     public void handlerAfterCreateSubtask(
-            String parentId,
-            StackPane stackPane,
-            TaskHandler parent,
-            int baseX,
-            int baseY,
-            int indent
+            AfterCreateSubtaskCommand command
     ) {
+        final String parentId= command.parentId();
+        final StackPane stackPane= command.stackPane();
+        final TaskHandler parent= command.parent();
+        final int baseX= command.baseX();
+        final int baseY= command.baseY();
+        final int indent= command.indent();
+
         final Rectangle rect = (Rectangle) stackPane.getChildren().get(0);
         final Label label = (Label) stackPane.getChildren().get(1);
 
