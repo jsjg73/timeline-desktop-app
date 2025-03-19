@@ -80,7 +80,7 @@ class TaskButtons {
                                        int indent) {
 
         this.globalStart.setOnAction(
-                new GlobalStartButtonEventHandler(stackPane)
+            new GlobalStartButtonEventHandler(stackPane)
         );
 
         completeEventHandlers.add(new GlobalStopButtonEventHandler(stackPane));

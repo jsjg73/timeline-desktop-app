@@ -32,7 +32,7 @@ public class TaskAppender implements TaskHandler, RootTaskAppender {
         barCount.incrementAndGet();
 
         ButtonLocator.disableTaskButton();
-        ButtonLocator.enableStartButton();
+        ButtonLocator.enableCompleteButton();
     }
 
     public void updateBaseY() {

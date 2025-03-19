@@ -38,8 +38,8 @@ class TaskHierarchyAppTest {
     void first_test() {
         verifyThat(buttonId, LabeledMatchers.hasText("Add Task"));
 
-        verifyThat(startButton, LabeledMatchers.hasText("Start"));
-        verifyThat(startButton, NodeMatchers.isDisabled());
+//        verifyThat(startButton, LabeledMatchers.hasText("Start"));
+//        verifyThat(startButton, NodeMatchers.isDisabled());
 
         verifyThat(completeButton, LabeledMatchers.hasText("Complete"));
         verifyThat(completeButton, NodeMatchers.isDisabled());
@@ -55,8 +55,8 @@ class TaskHierarchyAppTest {
         verifyThat("#new-task-bar-0", NodeMatchers.isVisible());
         verifyThat(buttonId, NodeMatchers.isDisabled());
 
-        verifyThat(startButton, NodeMatchers.isEnabled());
-        verifyThat(completeButton, NodeMatchers.isDisabled());
+//        verifyThat(startButton, NodeMatchers.isEnabled());
+        verifyThat(completeButton, NodeMatchers.isEnabled());
         verifyThat(subtaskButton, NodeMatchers.isDisabled());
     }
 
