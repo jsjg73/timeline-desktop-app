@@ -55,9 +55,8 @@ class TaskHierarchyAppTest {
         verifyThat("#new-task-bar-0", NodeMatchers.isVisible());
         verifyThat(buttonId, NodeMatchers.isDisabled());
 
-//        verifyThat(startButton, NodeMatchers.isEnabled());
         verifyThat(completeButton, NodeMatchers.isEnabled());
-        verifyThat(subtaskButton, NodeMatchers.isDisabled());
+        verifyThat(subtaskButton, NodeMatchers.isEnabled());
     }
 
     @Test
