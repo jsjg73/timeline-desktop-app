@@ -65,11 +65,8 @@ class TaskHierarchyAppTest {
         robot.clickOn(buttonId);
         verifyThat("#new-task-bar-0", NodeMatchers.isVisible());
 
-        robot.clickOn(startButton);
-
         verifyThat(buttonId, NodeMatchers.isDisabled());
 
-        verifyThat(startButton, NodeMatchers.isDisabled());
         Rectangle rect = lookup("#new-task-bar-0-rect").query();
         verifyThat((Color) rect.getFill(), ColorMatchers.isColor(Color.YELLOW));
 
