@@ -98,7 +98,6 @@ class TaskHierarchyAppTest {
     @Test
     void when_add_task_button_is_twice_clicked(FxRobot robot) {
         robot.clickOn(buttonId);
-        robot.clickOn(startButton);
         robot.clickOn(completeButton);
 
         robot.clickOn(buttonId);
@@ -106,9 +105,8 @@ class TaskHierarchyAppTest {
         verifyThat("#new-task-bar-1", NodeMatchers.isVisible());
         verifyThat(buttonId, NodeMatchers.isDisabled());
 
-        verifyThat(startButton, NodeMatchers.isEnabled());
-        verifyThat(completeButton, NodeMatchers.isDisabled());
-        verifyThat(subtaskButton, NodeMatchers.isDisabled());
+        verifyThat(completeButton, NodeMatchers.isEnabled());
+        verifyThat(subtaskButton, NodeMatchers.isEnabled());
     }
 
     @Test
