@@ -31,15 +31,12 @@ public class SubtaskButtonTest {
     }
 
     final String buttonId = "#" + TestButtonLocator.taskButtonId;
-    final String startButton = "#" + TestButtonLocator.startButtonId;
     final String completeButton = "#" + TestButtonLocator.completeButtonId;
     final String subtaskButton = "#" + TestButtonLocator.subtaskButtonId;
 
     @Test
     void when_subtask_button_is_clicked_subtask_bar_is_created(FxRobot robot) {
         robot.clickOn(buttonId);
-
-        robot.clickOn(startButton);
 
         final String rectId = "#new-task-bar-0-0-rect";
         final String labelId = "#new-task-bar-0-0-label";
@@ -57,7 +54,6 @@ public class SubtaskButtonTest {
         verifyThat(labelId, LabeledMatchers.hasText("새 하위 업무"));
 
         verifyThat(buttonId, NodeMatchers.isDisabled());
-        verifyThat(startButton, NodeMatchers.isEnabled());
         verifyThat(completeButton, NodeMatchers.isDisabled());
         verifyThat(subtaskButton, NodeMatchers.isDisabled());
     }
@@ -69,24 +65,18 @@ public class SubtaskButtonTest {
         final String labelId = "#new-task-bar-0-0-label";
 
         robot.clickOn(buttonId);
-        robot.clickOn(startButton);
         robot.clickOn(subtaskButton);
-
-        robot.clickOn(startButton);
 
         verifyRectColor(rectId, Color.YELLOW);
         verifyLabelTextColor(labelId, Color.BLACK);
 
-        verifyThat(startButton, NodeMatchers.isDisabled());
         verifyThat(completeButton, NodeMatchers.isEnabled());
     }
 
     @Test
     void when_subtask_is_completed(FxRobot robot) {
         robot.clickOn(buttonId);
-        robot.clickOn(startButton);
         robot.clickOn(subtaskButton);
-        robot.clickOn(startButton);
 
         final String rectId = "#new-task-bar-0-0-rect";
         final String labelId = "#new-task-bar-0-0-label";
@@ -102,9 +92,7 @@ public class SubtaskButtonTest {
     @Test
     void when_subtask_is_completed_parent_task_could_be_completed(FxRobot robot) {
         robot.clickOn(buttonId);
-        robot.clickOn(startButton);
         robot.clickOn(subtaskButton);
-        robot.clickOn(startButton);
         robot.clickOn(completeButton);
 
         robot.clickOn(completeButton);
@@ -122,12 +110,9 @@ public class SubtaskButtonTest {
     @Test
     void create_deep_depth_subtask(FxRobot robot) {
         robot.clickOn(buttonId);
-        robot.clickOn(startButton);
         robot.clickOn(subtaskButton);
-        robot.clickOn(startButton);
 
         robot.clickOn(subtaskButton);
-        robot.clickOn(startButton);
         verifyThat("#new-task-bar-0-0-0", NodeMatchers.isVisible());
         robot.clickOn(completeButton);
         verifyRectColor("#new-task-bar-0-0-0-rect", GRAY);
@@ -142,19 +127,15 @@ public class SubtaskButtonTest {
     @Test
     void create_deep_depth_subtask_and_complete_all(FxRobot robot) {
         robot.clickOn(buttonId);
-        robot.clickOn(startButton);
 
         robot.clickOn(subtaskButton);
         verifyThat("#new-task-bar-0-0", NodeMatchers.isVisible());
-        robot.clickOn(startButton);
 
         robot.clickOn(subtaskButton);
         verifyThat("#new-task-bar-0-0-0", NodeMatchers.isVisible());
-        robot.clickOn(startButton);
 
         robot.clickOn(subtaskButton);
         verifyThat("#new-task-bar-0-0-0-0", NodeMatchers.isVisible());
-        robot.clickOn(startButton);
 
         robot.clickOn(completeButton);
         verifyRectColor("#new-task-bar-0-0-0-0-rect", GRAY);

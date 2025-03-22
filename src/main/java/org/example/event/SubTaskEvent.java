@@ -39,8 +39,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
     public void handle(ActionEvent actionEvent) {
         addSubtask();
 
-        ButtonLocator.enableStartButton();
-        ButtonLocator.disableCompleteButton();
+        ButtonLocator.enableCompleteButton();
         ButtonLocator.disableSubtaskButton();
     }
 

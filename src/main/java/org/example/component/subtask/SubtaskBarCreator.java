@@ -2,6 +2,7 @@ package org.example.component.subtask;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.example.component.task.TaskLabel;
 import org.example.component.task.TaskRectangle;
@@ -14,7 +15,9 @@ public class SubtaskBarCreator {
     public static StackPane createSubTaskBarWithLabel(CreateSubTaskCommand c) {
 
         Rectangle rect = TaskRectangle.create(c.subtaskId(), c.baseX(), currentY(c.baseY(), c.depth()));
+        rect.setFill(Color.YELLOW);
         Label label = TaskLabel.create(c.subtaskId(), PLACE_HOLDER);
+        label.setTextFill(Color.BLACK);
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(rect, label);

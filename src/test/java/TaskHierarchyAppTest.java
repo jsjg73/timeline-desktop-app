@@ -30,16 +30,12 @@ class TaskHierarchyAppTest {
     }
 
     final String buttonId = "#" + TestButtonLocator.taskButtonId;
-    final String startButton = "#" + TestButtonLocator.startButtonId;
     final String completeButton = "#" + TestButtonLocator.completeButtonId;
     final String subtaskButton = "#" + TestButtonLocator.subtaskButtonId;
 
     @Test
     void first_test() {
         verifyThat(buttonId, LabeledMatchers.hasText("Add Task"));
-
-//        verifyThat(startButton, LabeledMatchers.hasText("Start"));
-//        verifyThat(startButton, NodeMatchers.isDisabled());
 
         verifyThat(completeButton, LabeledMatchers.hasText("Complete"));
         verifyThat(completeButton, NodeMatchers.isDisabled());
@@ -79,7 +75,6 @@ class TaskHierarchyAppTest {
     @Test
     void when_stop_button_is_clicked_bar_color_rollback(FxRobot robot) {
         robot.clickOn(buttonId);
-        robot.clickOn(startButton);
 
         robot.clickOn(completeButton);
 
@@ -112,8 +107,6 @@ class TaskHierarchyAppTest {
     @Test
     void when_start_button_is_clicked_subtask_button_is_enabled(FxRobot robot) {
         robot.clickOn(buttonId);
-
-        robot.clickOn(startButton);
 
         verifyThat(subtaskButton, NodeMatchers.isEnabled());
     }
