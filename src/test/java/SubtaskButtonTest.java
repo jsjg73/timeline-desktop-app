@@ -48,14 +48,14 @@ public class SubtaskButtonTest {
         verifyThat(rectId, NodeMatchers.isVisible());
         verifyThat(labelId, NodeMatchers.isVisible());
 
-        verifyRectColor(rectId, Color.BLUE);
-        verifyLabelTextColor(labelId, Color.WHITE);
+        verifyRectColor(rectId, YELLOW);
+        verifyLabelTextColor(labelId, BLACK);
 
         verifyThat(labelId, LabeledMatchers.hasText("새 하위 업무"));
 
         verifyThat(buttonId, NodeMatchers.isDisabled());
-        verifyThat(completeButton, NodeMatchers.isDisabled());
-        verifyThat(subtaskButton, NodeMatchers.isDisabled());
+        verifyThat(completeButton, NodeMatchers.isEnabled());
+        verifyThat(subtaskButton, NodeMatchers.isEnabled());
     }
 
 
@@ -120,8 +120,8 @@ public class SubtaskButtonTest {
 
         robot.clickOn(subtaskButton);
         verifyThat("#new-task-bar-0-0-1", NodeMatchers.isVisible());
-        verifyRectColor("#new-task-bar-0-0-1-rect", BLUE);
-        verifyLabelTextColor("#new-task-bar-0-0-1-label", WHITE);
+        verifyRectColor("#new-task-bar-0-0-1-rect", YELLOW);
+        verifyLabelTextColor("#new-task-bar-0-0-1-label", BLACK);
     }
 
     @Test

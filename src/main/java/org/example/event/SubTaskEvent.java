@@ -40,7 +40,7 @@ public class SubTaskEvent implements EventHandler<ActionEvent>, TaskHandler{
         addSubtask();
 
         ButtonLocator.enableCompleteButton();
-        ButtonLocator.disableSubtaskButton();
+        ButtonLocator.enableSubtaskButton();
     }
 
     private void addSubtask() {
