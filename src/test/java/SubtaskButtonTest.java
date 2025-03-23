@@ -1,19 +1,12 @@
-import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.example.TaskHierarchyScene;
 import org.example.global.button.TestButtonLocator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import org.testfx.matcher.base.ColorMatchers;
-import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
-import org.testfx.service.query.NodeQuery;
 
 import static javafx.scene.paint.Color.*;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -30,140 +23,118 @@ public class SubtaskButtonTest {
         stage.show();
     }
 
-    final String buttonId = "#" + TestButtonLocator.taskButtonId;
+    final String addTaskButton = "#" + TestButtonLocator.taskButtonId;
     final String completeButton = "#" + TestButtonLocator.completeButtonId;
     final String subtaskButton = "#" + TestButtonLocator.subtaskButtonId;
 
+    private FxRobot robot;
+    final TimelineApplicationTestHelper testHelper = new TimelineApplicationTestHelper();
+
     @Test
-    void when_subtask_button_is_clicked_subtask_bar_is_created(FxRobot robot) {
-        robot.clickOn(buttonId);
+    void when_subtask_button_is_clicked_subtask_bar_is_created() {
+        initiateNewTask();
 
-        final String rectId = "#new-task-bar-0-0-rect";
+        initiateSubTask();
+
         final String labelId = "#new-task-bar-0-0-label";
-
-        robot.clickOn(subtaskButton);
-
-        verifyThat("#new-task-bar-0-0", NodeMatchers.isVisible());
-
-        verifyThat(rectId, NodeMatchers.isVisible());
-        verifyThat(labelId, NodeMatchers.isVisible());
-
-        verifyRectColor(rectId, YELLOW);
-        verifyLabelTextColor(labelId, BLACK);
-
         verifyThat(labelId, LabeledMatchers.hasText("새 하위 업무"));
 
-        verifyThat(buttonId, NodeMatchers.isDisabled());
-        verifyThat(completeButton, NodeMatchers.isEnabled());
-        verifyThat(subtaskButton, NodeMatchers.isEnabled());
+        testHelper.assertTaskAppearance("#new-task-bar-0-0", YELLOW, BLACK);
+
+        testHelper.assertAdditionalTaskInitiationBlocked();
+        testHelper.assertTaskCompletionAvailable();
+        testHelper.assertSubTaskCreationAvailable();
     }
 
 
     @Test
-    void when_subtask_is_started_bar_color_is_changed(FxRobot robot) {
-        final String rectId = "#new-task-bar-0-0-rect";
-        final String labelId = "#new-task-bar-0-0-label";
+    void when_subtask_is_started_bar_color_is_changed() {
+        initiateNewTask();
+        initiateSubTask();
 
-        robot.clickOn(buttonId);
-        robot.clickOn(subtaskButton);
-
-        verifyRectColor(rectId, Color.YELLOW);
-        verifyLabelTextColor(labelId, Color.BLACK);
-
-        verifyThat(completeButton, NodeMatchers.isEnabled());
+        testHelper.assertTaskAppearance("#new-task-bar-0-0", YELLOW, BLACK);
+        testHelper.assertTaskCompletionAvailable();
     }
 
     @Test
-    void when_subtask_is_completed(FxRobot robot) {
-        robot.clickOn(buttonId);
-        robot.clickOn(subtaskButton);
+    void when_subtask_is_completed() {
+        initiateNewTask();
+        initiateSubTask();
 
-        final String rectId = "#new-task-bar-0-0-rect";
-        final String labelId = "#new-task-bar-0-0-label";
+        completeTask();
 
-        robot.clickOn(completeButton);
-
-        verifyRectColor(rectId, GRAY);
-        verifyLabelTextColor(labelId, Color.WHITE);
-
-        verifyThat(subtaskButton, NodeMatchers.isEnabled());
+        testHelper.assertTaskAppearance("#new-task-bar-0-0", GRAY, WHITE);
+        testHelper.assertSubTaskCreationAvailable();
     }
 
     @Test
-    void when_subtask_is_completed_parent_task_could_be_completed(FxRobot robot) {
-        robot.clickOn(buttonId);
-        robot.clickOn(subtaskButton);
-        robot.clickOn(completeButton);
+    void when_subtask_is_completed_parent_task_could_be_completed() {
+        initiateNewTask();
+        initiateSubTask();
+        completeTask();
 
-        robot.clickOn(completeButton);
+        completeTask();
 
-        verifyRectColor("#new-task-bar-0-rect", GRAY);
-        verifyLabelTextColor("#new-task-bar-0-label", WHITE);
+        testHelper.assertTaskAppearance("#new-task-bar-0", GRAY, WHITE);
 
-        verifyThat(subtaskButton, NodeMatchers.isDisabled());
+        testHelper.assertSubTaskCreationBlocked();
 
-        robot.clickOn(buttonId);
-        verifyThat("#new-task-bar-1", NodeMatchers.isVisible());
+        initiateNewTask();
+        testHelper.assertTaskProgressDisplayed(1);
     }
 
     //    하위 업무 재귀 생성 테스트;
     @Test
-    void create_deep_depth_subtask(FxRobot robot) {
-        robot.clickOn(buttonId);
-        robot.clickOn(subtaskButton);
+    void create_deep_depth_subtask() {
+        initiateNewTask();
+        initiateSubTask();
 
-        robot.clickOn(subtaskButton);
-        verifyThat("#new-task-bar-0-0-0", NodeMatchers.isVisible());
-        robot.clickOn(completeButton);
-        verifyRectColor("#new-task-bar-0-0-0-rect", GRAY);
-        verifyLabelTextColor("#new-task-bar-0-0-0-label", WHITE);
+        initiateSubTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0-0-0", YELLOW, BLACK);
+        completeTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0-0-0", GRAY, WHITE);
 
-        robot.clickOn(subtaskButton);
-        verifyThat("#new-task-bar-0-0-1", NodeMatchers.isVisible());
-        verifyRectColor("#new-task-bar-0-0-1-rect", YELLOW);
-        verifyLabelTextColor("#new-task-bar-0-0-1-label", BLACK);
+        initiateSubTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0-0-1", YELLOW, BLACK);
     }
 
     @Test
-    void create_deep_depth_subtask_and_complete_all(FxRobot robot) {
-        robot.clickOn(buttonId);
+    void create_deep_depth_subtask_and_complete_all() {
+        initiateNewTask();
 
-        robot.clickOn(subtaskButton);
-        verifyThat("#new-task-bar-0-0", NodeMatchers.isVisible());
+        initiateSubTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0-0", YELLOW, BLACK);
 
-        robot.clickOn(subtaskButton);
-        verifyThat("#new-task-bar-0-0-0", NodeMatchers.isVisible());
+        initiateSubTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0-0-0", YELLOW, BLACK);
 
-        robot.clickOn(subtaskButton);
-        verifyThat("#new-task-bar-0-0-0-0", NodeMatchers.isVisible());
+        initiateSubTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0-0-0-0", YELLOW, BLACK);
 
-        robot.clickOn(completeButton);
-        verifyRectColor("#new-task-bar-0-0-0-0-rect", GRAY);
+        completeTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0-0-0-0", GRAY, WHITE);
 
-        robot.clickOn(completeButton);
-        verifyRectColor("#new-task-bar-0-0-0-rect", GRAY);
+        completeTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0-0-0", GRAY, WHITE);
 
-        robot.clickOn(completeButton);
-        verifyRectColor("#new-task-bar-0-0-rect", GRAY);
+        completeTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0-0", GRAY, WHITE);
 
-        robot.clickOn(completeButton);
-        verifyRectColor("#new-task-bar-0-rect", GRAY);
-        verifyThat(buttonId, NodeMatchers.isEnabled());
+        completeTask();
+        testHelper.assertTaskAppearance("#new-task-bar-0", GRAY, WHITE);
+
+        testHelper.assertTaskInitiationAvailable();
     }
 
-    private void verifyRectColor(String rectId, Color color) {
-        Rectangle rect = lookup(rectId).query();
-        verifyThat((Color) rect.getFill(), ColorMatchers.isColor(color));
+    private void completeTask() {
+        robot.clickOn(completeButton);
     }
 
-    private void verifyLabelTextColor(String labelId, Color color) {
-        Label rect = lookup(labelId).query();
-        verifyThat((Color) rect.getTextFill(), ColorMatchers.isColor(color));
+    private void initiateNewTask() {
+        robot.clickOn(addTaskButton);
     }
-
-    private NodeQuery lookup(String query) {
-        return FxAssert.assertContext()
-                .getNodeFinder()
-                .lookup(query);
+    
+    private void initiateSubTask(){
+        robot.clickOn(subtaskButton);
     }
 }

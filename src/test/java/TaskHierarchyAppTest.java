@@ -38,10 +38,6 @@ class TaskHierarchyAppTest {
         testHelper.assertSubTaskCreationAvailable();
     }
 
-    private void initiateNewTask() {
-        robot.clickOn(addTaskButton);
-    }
-
     @Test
     void when_stop_button_is_clicked_bar_color_rollback() {
         initiateNewTask();
@@ -55,12 +51,8 @@ class TaskHierarchyAppTest {
         testHelper.assertSubTaskCreationBlocked();
     }
 
-    private void completeTask() {
-        robot.clickOn(completeButton);
-    }
-
     @Test
-    void when_add_task_button_is_twice_clicked(FxRobot robot) {
+    void when_add_task_button_is_twice_clicked() {
         initiateNewTask();
         completeTask();
 
@@ -71,5 +63,13 @@ class TaskHierarchyAppTest {
         testHelper.assertAdditionalTaskInitiationBlocked();
         testHelper.assertTaskCompletionAvailable();
         testHelper.assertSubTaskCreationAvailable();
+    }
+
+    private void completeTask() {
+        robot.clickOn(completeButton);
+    }
+
+    private void initiateNewTask() {
+        robot.clickOn(addTaskButton);
     }
 }
