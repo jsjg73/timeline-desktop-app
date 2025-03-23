@@ -57,6 +57,10 @@ class TaskHierarchyAppTest {
         assertSubTaskCreationAvailable();
     }
 
+    private void assertTaskInitiationAvailable() {
+        verifyThat(addTaskButton, NodeMatchers.isEnabled());
+    }
+
     private void assertSubTaskCreationAvailable() {
         verifyThat(subtaskButton, NodeMatchers.isEnabled());
     }
@@ -67,6 +71,14 @@ class TaskHierarchyAppTest {
 
     private void assertAdditionalTaskInitiationBlocked() {
         verifyThat(addTaskButton, NodeMatchers.isDisabled());
+    }
+
+    private void assertTaskCompletionBlocked() {
+        verifyThat(completeButton, NodeMatchers.isDisabled());
+    }
+
+    private void assertSubTaskCreationBlocked() {
+        verifyThat(subtaskButton, NodeMatchers.isDisabled());
     }
 
     private void assertTaskProgressDisplayed(int index) {
@@ -88,38 +100,20 @@ class TaskHierarchyAppTest {
     }
 
     @Test
-    void when_start_button_is_clicked_bar_color_is_changed(FxRobot robot) {
-        robot.clickOn(addTaskButton);
-        verifyThat("#new-task-bar-0", NodeMatchers.isVisible());
+    void when_stop_button_is_clicked_bar_color_rollback() {
+        initiateNewTask();
+        completeTask();
 
-        verifyThat(addTaskButton, NodeMatchers.isDisabled());
+        assertTaskCompletionBlocked();
+        assertTaskInitiationAvailable();
 
-        Rectangle rect = lookup("#new-task-bar-0-rect").query();
-        verifyThat((Color) rect.getFill(), ColorMatchers.isColor(Color.YELLOW));
-
-        Label label = lookup("#new-task-bar-0-label").query();
-        verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.BLACK));
-
-        verifyThat(completeButton, NodeMatchers.isEnabled());
-        verifyThat(subtaskButton, NodeMatchers.isEnabled());
+        final String taskId = "#new-task-bar-0";
+        assertTaskAppearance(taskId, Color.GRAY, Color.WHITE);
+        assertSubTaskCreationBlocked();
     }
 
-    @Test
-    void when_stop_button_is_clicked_bar_color_rollback(FxRobot robot) {
-        robot.clickOn(addTaskButton);
-
+    private void completeTask() {
         robot.clickOn(completeButton);
-
-        verifyThat(completeButton, NodeMatchers.isDisabled());
-        verifyThat(addTaskButton, NodeMatchers.isEnabled());
-
-        Rectangle rect = lookup("#new-task-bar-0-rect").query();
-        verifyThat((Color) rect.getFill(), ColorMatchers.isColor(Color.GRAY));
-
-        Label label = lookup("#new-task-bar-0-label").query();
-        verifyThat((Color) label.getTextFill(), ColorMatchers.isColor(Color.WHITE));
-
-        verifyThat(subtaskButton, NodeMatchers.isDisabled());
     }
 
     @Test
