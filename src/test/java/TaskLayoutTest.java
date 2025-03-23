@@ -24,7 +24,6 @@ public class TaskLayoutTest {
     }
 
     final String buttonId = "#" + TestButtonLocator.taskButtonId;
-    final String startButton = "#" + TestButtonLocator.startButtonId;
     final String completeButton = "#" + TestButtonLocator.completeButtonId;
     final String subtaskButton = "#" + TestButtonLocator.subtaskButtonId;
 
@@ -141,7 +140,6 @@ public class TaskLayoutTest {
 
     private void startNewTask(FxRobot robot) {
         robot.clickOn(buttonId);
-        robot.clickOn(startButton);
     }
 
     private void completeRootTask(FxRobot robot) {
@@ -151,7 +149,6 @@ public class TaskLayoutTest {
 
     private void startNewSubTask(FxRobot robot) {
         robot.clickOn(subtaskButton);
-        robot.clickOn(startButton);
     }
 
     private void completeNewSubtask(FxRobot robot) {

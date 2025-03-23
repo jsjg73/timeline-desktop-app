@@ -1,10 +1,8 @@
 package org.example.global.button;
 
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import org.example.event.*;
 import org.example.event.command.AfterCreateSubtaskCommand;
 
@@ -21,10 +19,6 @@ public class ButtonLocator {
 
     public static void disableTaskButton() {
         taskButtons.disableTaskButton();
-    }
-
-    public static void enableStartButton() {
-        taskButtons.enableStartButton();
     }
 
     public static void drawGlobalButtonsOn(VBox root) {
@@ -49,10 +43,6 @@ public class ButtonLocator {
 
     public static void enableCompleteButton() {
         taskButtons.enableCompleteButton();
-    }
-
-    public static void disableStartButton() {
-        taskButtons.disableStartButton();
     }
 
     public static void removeLastComplete() {

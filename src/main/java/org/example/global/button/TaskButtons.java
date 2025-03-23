@@ -19,12 +19,10 @@ import java.util.List;
 
 class TaskButtons {
     public static final String taskButtonId = "addTaskButton";
-    public static final String startButtonId = "globalStartButton";
     public static final String completeButtonId = "globalCompleteButton";
     public static final String subtaskButtonId = "globalSubtaskButton";
 
     protected final Button addTaskButton = new Button("Add Task");
-    protected final Button globalStart = new Button("Start");
     protected final Button globalComplete = new Button("Complete");
     protected final Button globalSubtask = new Button("Subtask");
 
@@ -33,9 +31,6 @@ class TaskButtons {
 
     public TaskButtons() {
         addTaskButton.setId(taskButtonId);
-
-        globalStart.setId(startButtonId);
-        disableStartButton();
 
         globalComplete.setId(completeButtonId);
         disableCompleteButton();
@@ -60,14 +55,10 @@ class TaskButtons {
         this.addTaskButton.setDisable(true);
     }
 
-    public void enableStartButton() {
-        this.globalStart.setDisable(false);
-    }
 
     public void drawnOn(VBox root) {
         root.getChildren().addAll(
                 addTaskButton,
-                globalStart,
                 globalComplete,
                 globalSubtask
         );
@@ -78,10 +69,6 @@ class TaskButtons {
                                        TaskHandler parent,
                                        int baseY,
                                        int indent) {
-
-        this.globalStart.setOnAction(
-            new GlobalStartButtonEventHandler(stackPane)
-        );
 
         completeEventHandlers.add(new GlobalStopButtonEventHandler(stackPane));
         this.globalComplete.setOnAction(e -> completeEventHandlers.getLast().handle(e));
@@ -102,17 +89,6 @@ class TaskButtons {
 
         final Rectangle rect = (Rectangle) stackPane.getChildren().get(0);
         final Label label = (Label) stackPane.getChildren().get(1);
-
-        globalStart.setOnAction(
-                e -> {
-                    rect.setFill(Color.YELLOW);
-                    label.setTextFill(Color.BLACK);
-
-                    disableStartButton();
-                    enableCompleteButton();
-                    enableSubtaskButton();
-                }
-        );
 
         EventHandler<ActionEvent> completeEventHandler = e -> {
             subtaskEventHandlers.removeLast();
@@ -135,10 +111,6 @@ class TaskButtons {
 
     public void enableCompleteButton() {
         globalComplete.setDisable(false);
-    }
-
-    public void disableStartButton() {
-        globalStart.setDisable(true);
     }
 
     public void removeLastComplete() {
