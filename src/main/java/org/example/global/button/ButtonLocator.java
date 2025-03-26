@@ -9,20 +9,12 @@ import org.example.event.command.AfterCreateSubtaskCommand;
 public class ButtonLocator {
     private static TaskButtons taskButtons;
 
-    public static void init() {
-        taskButtons = new TaskButtons();
-    }
-
-    public static void handleTaskButton(TextField taskNameField) {
-        taskButtons.handleTaskButton(taskNameField);
+    public static void init(VBox root, TextField taskNameField) {
+        taskButtons = TaskButtons.init(root, taskNameField);
     }
 
     public static void disableTaskButton() {
         taskButtons.disableTaskButton();
-    }
-
-    public static void drawGlobalButtonsOn(VBox root) {
-        taskButtons.drawnOn(root);
     }
 
     public static void handlerAfterCreateTask(String parentId,

@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -29,26 +28,35 @@ class TaskButtons {
     protected final List<EventHandler<ActionEvent>> completeEventHandlers = new ArrayList<>();
     protected final List<EventHandler<ActionEvent>> subtaskEventHandlers = new ArrayList<>();
 
-    public TaskButtons() {
-        addTaskButton.setId(taskButtonId);
-
-        globalComplete.setId(completeButtonId);
-        disableCompleteButton();
-
-        globalSubtask.setId(subtaskButtonId);
-        disableSubtaskButton();
+    private TaskButtons() {
     }
 
-    public void handleTaskButton(TextField taskNameField) {
+    public static TaskButtons init(VBox root, TextField taskNameField) {
+        TaskButtons instance = new TaskButtons();
+        instance.addTaskButton.setId(taskButtonId);
 
-        addTaskButton.setOnAction(
-            new AddTaskEventHandler(
-                taskNameField,
-                new TaskAppender(
-                    new TaskBarCreator()
+        instance.addTaskButton.setOnAction(
+                new AddTaskEventHandler(
+                        taskNameField,
+                        new TaskAppender(
+                                new TaskBarCreator()
+                        )
                 )
-            )
         );
+
+        instance.globalComplete.setId(completeButtonId);
+        instance.disableCompleteButton();
+
+        instance.globalSubtask.setId(subtaskButtonId);
+        instance.disableSubtaskButton();
+
+        root.getChildren().addAll(
+                instance.addTaskButton,
+                instance.globalComplete,
+                instance.globalSubtask
+        );
+
+        return instance;
     }
 
     public void disableTaskButton() {

@@ -10,7 +10,6 @@ import org.example.global.button.ButtonLocator;
 public class TaskHierarchyScene {
 
     public TaskHierarchyScene() {
-        ButtonLocator.init();
         taskPane = new Pane();
     }
 
@@ -29,11 +28,9 @@ public class TaskHierarchyScene {
 
         // 기본 레이아웃 설정
         root.getChildren().addAll(taskNameField, parentTaskField);
-        ButtonLocator.drawGlobalButtonsOn(root);
         root.getChildren().add(taskPane);
 
-        // 작업 추가 버튼 클릭 이벤트
-        ButtonLocator.handleTaskButton(taskNameField);
+        ButtonLocator.init(root, taskNameField);
 
         return new Scene(root, 800, 600);
     }
